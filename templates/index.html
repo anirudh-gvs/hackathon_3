@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline DocScan - AI Document Processing</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <!-- PDF.js loaded locally for offline use - copy from CDN if needed -->
+</head>
+<body>
+  <!-- Layout: Sidebar + Main Content -->
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon" aria-hidden="true"></div>
+          Offline DocScan
+        </div>
+      </div>
+      
+      <button class="nav-item active" data-page="dashboard" aria-current="page">
+        <span class="nav-item-icon" aria-hidden="true">📊</span>
+        Dashboard
+      </button>
+      
+      <button class="nav-item" data-page="scan">
+        <span class="nav-item-icon" aria-hidden="true">📄</span>
+        Scan Document
+      </button>
+      
+      <button class="nav-item" data-page="history">
+        <span class="nav-item-icon" aria-hidden="true">📁</span>
+        History
+      </button>
+      
+      <div class="nav-divider"></div>
+      
+      <button class="nav-item" data-page="settings">
+        <span class="nav-item-icon" aria-hidden="true">⚙️</span>
+        Settings
+      </button>
+      
+      <button class="nav-item" data-page="about">
+        <span class="nav-item-icon" aria-hidden="true">ℹ️</span>
+        About
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="app-header">
+        <h1 class="header-title" id="page-title">Dashboard</h1>
+        <div class="header-right">
+          <div class="monitor-widget" id="monitor-widget" title="System Monitor">
+            <div class="monitor-compact" id="monitor-compact">
+              <span class="monitor-metric">
+                <span class="monitor-dot" id="monitor-dot"></span>
+                <span id="monitor-cpu">0%</span> CPU
+              </span>
+              <span class="monitor-divider">|</span>
+              <span class="monitor-metric">
+                🧠 <span id="monitor-ram">0 MB</span>
+              </span>
+              <span class="monitor-divider">|</span>
+              <span class="monitor-meta">
+                <span class="monitor-tag" id="monitor-engine">CPU</span>
+              </span>
+            </div>
+            <div class="monitor-expanded" id="monitor-expanded">
+              <div class="monitor-row">
+                <span class="monitor-label">CPU Usage</span>
+                <div class="monitor-bar-bg">
+                  <div class="monitor-bar" id="monitor-cpu-bar" style="width:0%"></div>
+                </div>
+                <span class="monitor-value" id="monitor-cpu-val">0%</span>
+              </div>
+              <div class="monitor-row">
+                <span class="monitor-label">Memory</span>
+                <div class="monitor-bar-bg">
+                  <div class="monitor-bar monitor-bar-warning" id="monitor-ram-bar" style="width:0%"></div>
+                </div>
+                <span class="monitor-value" id="monitor-ram-val">0%</span>
+              </div>
+              <div class="monitor-details">
+                <div class="monitor-detail-item">
+                  <span>⚙ Cores</span>
+                  <strong id="monitor-cores">-</strong>
+                </div>
+                <div class="monitor-detail-item">
+                  <span>🔥 Process CPU</span>
+                  <strong id="monitor-proc-cpu">-</strong>
+                </div>
+                <div class="monitor-detail-item">
+                  <span>🧵 Threads</span>
+                  <strong id="monitor-threads">-</strong>
+                </div>
+                <div class="monitor-detail-item">
+                  <span>💾 Disk</span>
+                  <strong id="monitor-disk">-</strong>
+                </div>
+              </div>
+              <div class="monitor-details">
+                <div class="monitor-detail-item">
+                  <span>🖧 Network</span>
+                  <strong id="monitor-network">-</strong>
+                </div>
+                <div class="monitor-detail-item">
+                  <span>🧠 Engine</span>
+                  <strong id="monitor-inference">-</strong>
+                </div>
+                <div class="monitor-detail-item">
+                  <span>⚡ GPU</span>
+                  <strong id="monitor-gpu">-</strong>
+                </div>
+              </div>
+              <canvas id="monitor-chart" class="monitor-chart" width="280" height="80"></canvas>
+            </div>
+          </div>
+          <div class="offline-badge" aria-label="Application running in offline mode">
+            <span class="offline-badge-dot" aria-hidden="true"></span>
+            <span>Offline Mode Active</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Page -->
+      <section class="page active" id="dashboard-page" aria-labelledby="page-title">
+        <div class="page-header">
+          <h2 class="page-title">Welcome to Offline DocScan</h2>
+          <p class="page-description">Privacy-first, CPU-only document processing with local AI inference</p>
+        </div>
+
+        <div class="stats-grid" role="region" aria-label="Statistics">
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">📊</div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Documents Scanned</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">✓</div>
+            <div class="stat-value" id="stat-success-rate">0%</div>
+            <div class="stat-label">Extraction Success Rate</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">⏱️</div>
+            <div class="stat-value" id="stat-avg-time">0s</div>
+            <div class="stat-label">Avg Processing Time</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">🏥</div>
+            <div class="stat-value" id="stat-medical">0</div>
+            <div class="stat-label">Medical Reports</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">🧾</div>
+            <div class="stat-value" id="stat-receipts">0</div>
+            <div class="stat-label">Receipts</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" aria-hidden="true">📋</div>
+            <div class="stat-value" id="stat-invoices">0</div>
+            <div class="stat-label">Invoices</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scan Page -->
+      <section class="page" id="scan-page" aria-labelledby="page-title">
+        <div class="page-header">
+          <h2 class="page-title">Scan Document</h2>
+          <p class="page-description">Upload a document to extract structured data offline</p>
+        </div>
+
+        <div class="card">
+          <form id="scanForm">
+            <div class="form-group">
+              <label class="form-label" for="file">Document (PDF, image, or text)</label>
+              <input type="file" id="file" name="file" class="form-input" accept=".pdf,.png,.jpg,.jpeg,.tiff,.bmp,.txt" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="schema">Output Schema</label>
+              <select id="schema" name="schema" class="form-select">
+                <option value="generic">Generic Document</option>
+                <option value="receipt">Receipt / Invoice</option>
+                <option value="medical">Medical Report</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="mode">Processing Mode</label>
+              <select id="mode" name="mode" class="form-select">
+                <option value="quick">Quick (instant, keyword-based)</option>
+                <option value="ai">AI (deep extraction, ~15-30s)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Process Document</button>
+          </form>
+        </div>
+
+        <!-- Processing Pipeline -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Processing Pipeline</h3>
+          </div>
+          <div class="pipeline-container" aria-live="polite">
+            <p class="text-muted">Pipeline will appear here when processing starts.</p>
+          </div>
+        </div>
+
+        <!-- Document Preview & Extraction -->
+        <div class="scan-layout" style="display: none;" id="scan-results">
+          <!-- Left: Document Preview -->
+          <div class="preview-panel">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Document Preview</h3>
+              </div>
+              <div class="preview-container">
+                <div class="preview-toolbar">
+                  <div class="preview-actions">
+                    <button class="btn btn-sm btn-secondary" id="zoomOutBtn" title="Zoom Out">−</button>
+                    <button class="btn btn-sm btn-secondary" id="zoomInBtn" title="Zoom In">+</button>
+                    <button class="btn btn-sm btn-secondary" id="fitWidthBtn" title="Fit Width">↔</button>
+                    <button class="btn btn-sm btn-secondary" id="fitPageBtn" title="Fit Page">▢</button>
+                  </div>
+                </div>
+                <div class="preview-content" aria-label="Document preview area">
+                  <p class="preview-placeholder">Select a document to preview</p>
+                </div>
+                <div class="pdf-thumbnails" aria-label="PDF page thumbnails"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Extracted Data -->
+          <div class="extraction-panel">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Extracted Data</h3>
+              </div>
+              <div class="extraction-content" aria-label="Extracted data form">
+                <p class="text-muted">Extracted data will appear here after processing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- History Page -->
+      <section class="page" id="history-page" aria-labelledby="page-title">
+        <div class="page-header">
+          <h2 class="page-title">Scan History</h2>
+          <p class="page-description">View previously processed documents</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Search & Filter</h3>
+          </div>
+          <input type="text" class="form-input history-search-input" placeholder="Search by filename or document type..." aria-label="Search history">
+        </div>
+
+        <div class="history-list" role="list" aria-label="History of scanned documents">
+          <div class="empty-state">
+            <div class="empty-state-icon" aria-hidden="true">📁</div>
+            <p>No documents scanned yet. Scan your first document!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings Page -->
+      <section class="page" id="settings-page" aria-labelledby="page-title">
+        <div class="page-header">
+          <h2 class="page-title">Settings</h2>
+          <p class="page-description">Configure the application</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Processing Options</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="model-path">Model Path</label>
+            <input type="text" id="model-path" class="form-input" value="models/phi3-mini-q4.gguf" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="max-tokens">Max Tokens</label>
+            <input type="number" id="max-tokens" class="form-input" value="2048" min="256" max="8192">
+          </div>
+        </div>
+      </section>
+
+      <!-- About Page -->
+      <section class="page" id="about-page" aria-labelledby="page-title">
+        <div class="page-header">
+          <h2 class="page-title">About Offline DocScan</h2>
+          <p class="page-description">Privacy-first, offline AI document processing</p>
+        </div>
+
+        <div class="card">
+          <p><strong>Offline DocScan</strong> is a CPU-first, offline-only document processing application developed for the CPU First Hackathon. All processing happens locally on your device - no data leaves your computer.</p>
+          
+          <h3 style="margin-top: 1rem; margin-bottom: 0.5rem;">Features</h3>
+          <ul style="margin-left: 1.5rem; color: var(--color-text-secondary);">
+            <li>Extract structured data from PDFs, images, and text files</li>
+            <li>Support for Receipt, Medical, and Generic document schemas</li>
+            <li>100% offline - no internet required</li>
+            <li>CPU-only processing - no GPU needed</li>
+            <li>Local storage of scan history</li>
+          </ul>
+          
+          <h3 style="margin-top: 1rem; margin-bottom: 0.5rem;">Technology Stack</h3>
+          <ul style="margin-left: 1.5rem; color: var(--color-text-secondary);">
+            <li>Python Flask backend</li>
+            <li>pdfplumber for PDF text extraction</li>
+            <li>Tesseract OCR for images</li>
+            <li>llama-cpp-python for local LLM inference</li>
+            <li>Pydantic for schema validation</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js?v=2"></script>
+  <script>
+    // Force refresh if cached version is old
+    // Also add console feedback for debugging
+    console.log('DocScan App loaded', new Date().toISOString());
+  </script>
+</body>
+</html>

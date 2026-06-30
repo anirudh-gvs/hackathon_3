@@ -1,0 +1,620 @@
+[flake8]
+# =============================================================================
+# Basic Configuration
+# =============================================================================
+# Maximum line length (matches Black and Pylint config)
+max-line-length = 100
+
+# Maximum McCabe complexity threshold
+max-complexity = 10
+
+# =============================================================================
+# File and Directory Exclusions
+# =============================================================================
+# Exclude directories
+exclude = 
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    venv,
+    .eggs,
+    *.egg-info,
+    node_modules,
+    .mypy_cache,
+    .ruff_cache,
+    .pytest_cache,
+    htmlcov,
+    docs/_build,
+    .eggs
+
+# Exclude specific files
+filename = 
+    *.py
+
+# =============================================================================
+# Import Handling
+# =============================================================================
+# Import order style (matches isort/ruff)
+import-order-style = google
+
+# Application import names (for isort)
+application-import-names = docscan,tests
+
+# =============================================================================
+# Extended Ignores (only when necessary)
+# =============================================================================
+# These are justified suppressions for this project
+
+# E501: Line too long (handled by Black formatter)
+extend-ignore = E501
+
+# W503: Line break before binary operator (conflicts with Black)
+extend-ignore = W503
+
+# E203: Whitespace before ':' (conflicts with Black)
+extend-ignore = E203
+
+# E266: Too many leading '#' for block comment (allow for section headers)
+extend-ignore = E266
+
+# E501: Line too long (handled by Black)
+extend-ignore = E501,W503,E203,E266
+
+# =============================================================================
+# Per-File Ignores
+# =============================================================================
+# Test files can have different standards
+per-file-ignores =
+    # Allow assert statements in tests
+    tests/*:S101,
+    # Allow print statements in tests
+    tests/*:T201,
+    # Allow missing docstrings in tests
+    tests/*:D103,D104,D105,D107,
+    # Allow long lines in test fixtures
+    tests/fixtures/*:E501
+
+# =============================================================================
+# Docstring Configuration
+# =============================================================================
+# Docstring style (Google, NumPy, or PEP 257)
+docstring-convention = google
+
+# =============================================================================
+# Statistics
+# =============================================================================
+# Count errors and warnings
+statistics = True
+
+# Show source code for each error
+show-source = True
+
+# Show pep8 text for each error
+show-pep8 = False
+
+# =============================================================================
+# Formatting
+# =============================================================================
+# Format output as percentage
+format = default
+
+# =============================================================================
+# Plugins (if installed)
+# =============================================================================
+# Enable flake8-docstrings
+# enable-extensions = D
+
+# Enable flake8-import-order
+# enable-extensions = I
+
+# Enable flake8-comprehensions
+# enable-extensions = C
+
+# Enable flake8-bugbear
+# enable-extensions = B
+
+# =============================================================================
+# Bugbear Extensions (if installed)
+# =============================================================================
+# B001: Do not use bare except
+# B002: Python 2 style super() call
+# B003: Assigning to os.environ
+# B004: Using hasattr(x, '__call__') to check if callable
+# B005: Using .strip() with multi-character strings
+# B006: Mutable default arguments
+# B007: Loop control variable not used
+# B008: Do not perform function calls in argument defaults
+# B009: Do not call getattr with a constant attribute value
+# B010: Do not call setattr with a constant attribute value
+# B011: Do not return False inside boolean tests
+# B012: Jupyter/ipython notebooks should have a shebang
+# B013: Redundant exception handler
+# B014: Exception handler handles same exception
+# B015: Pointless comparison
+# B016: Cannot raise literal
+# B017: assertRaises(Exception)
+# B018: Useless expression
+# B019: Use of functools.lru_cache or functools.cache on method
+# B020: Loop control variable not used
+# B021: Pass multiple arguments to formatted string
+# B022: No arguments passed to super()
+# B023: Functions defined inside loops
+# B024: Abstract base class has abstract methods
+# B025: try-except with pass
+# B026: Star-arg unpacking after keyword argument
+# B027: Empty method in abstract base class
+# B028: No explicit stacklevel keyword argument found
+# B029: Non-default boolean in else clause
+# B030: Class attributes should be defined in __init__ or with default values
+# B031: Use of pickle
+# B032: Try-except should not have a return statement
+# B033: Duplicate set membership test
+# B034: Pass or yield items by reference
+# B035: Static except clause
+# B036: Class-level attributes should be UpperCamelCase
+# B037: Iteration over dict_keys should be replaced with set()
+# B038: Use ternary operator for if-else
+# B039: Use enumerate() instead of range(len())
+# B040: Use isort to sort imports
+# B041: Use future import annotations
+# B042: Use from __future__ import annotations
+# B043: Use defaultdict(dict) instead of setdefault
+# B044: Use yaml.safe_load instead of yaml.load
+# B045: Use decimal.Decimal for financial calculations
+# B046: Use pathlib.Path instead of os.path
+# B047: Use context manager for file operations
+# B048: Use context manager for subprocess
+# B049: Use pathlib.Path.mkdir with parents=True
+# B050: Use tomllib instead of toml package
+# B051: Use secrets module for security-sensitive operations
+# B052: Use contextlib.suppress for ignored exceptions
+# B053: Use contextlib.ExitStack for multiple context managers
+# B054: Use subprocess.run instead of subprocess.call
+# B055: Use subprocess.run instead of subprocess.check_output
+# B056: Use subprocess.run instead of subprocess.Popen
+# B057: Use subprocess.run instead of subprocess.Popen
+# B058: Use subprocess.run instead of subprocess.Popen
+# B059: Use subprocess.run instead of subprocess.Popen
+# B060: Use f-strings instead of % formatting
+# B061: Use f-strings instead of .format()
+# B062: Use f-strings instead of string concatenation
+# B063: Use f-strings instead of string.Template
+# B064: Use f-strings instead of % formatting in logging
+# B065: Use f-strings instead of % formatting in logging
+# B066: Use f-strings instead of % formatting in logging
+# B067: Use f-strings instead of % formatting in logging
+# B068: Use f-strings instead of % formatting in logging
+# B069: Use f-strings instead of % formatting in logging
+# B070: Use f-strings instead of % formatting in logging
+# B071: Use f-strings instead of % formatting in logging
+# B072: Use f-strings instead of % formatting in logging
+# B073: Use f-strings instead of % formatting in logging
+# B074: Use f-strings instead of % formatting in logging
+# B075: Use f-strings instead of % formatting in logging
+# B076: Use f-strings instead of % formatting in logging
+# B077: Use f-strings instead of % formatting in logging
+# B078: Use f-strings instead of % formatting in logging
+# B079: Use f-strings instead of % formatting in logging
+# B080: Use f-strings instead of % formatting in logging
+# B081: Use f-strings instead of % formatting in logging
+# B082: Use f-strings instead of % formatting in logging
+# B083: Use f-strings instead of % formatting in logging
+# B084: Use f-strings instead of % formatting in logging
+# B085: Use f-strings instead of % formatting in logging
+# B086: Use f-strings instead of % formatting in logging
+# B087: Use f-strings instead of % formatting in logging
+# B088: Use f-strings instead of % formatting in logging
+# B089: Use f-strings instead of % formatting in logging
+# B090: Use f-strings instead of % formatting in logging
+# B091: Use f-strings instead of % formatting in logging
+# B092: Use f-strings instead of % formatting in logging
+# B093: Use f-strings instead of % formatting in logging
+# B094: Use f-strings instead of % formatting in logging
+# B095: Use f-strings instead of % formatting in logging
+# B096: Use f-strings instead of % formatting in logging
+# B097: Use f-strings instead of % formatting in logging
+# B098: Use f-strings instead of % formatting in logging
+# B099: Use f-strings instead of % formatting in logging
+# B100: Use f-strings instead of % formatting in logging
+# B101: Use f-strings instead of % formatting in logging
+# B102: Use f-strings instead of % formatting in logging
+# B103: Use f-strings instead of % formatting in logging
+# B104: Use f-strings instead of % formatting in logging
+# B105: Use f-strings instead of % formatting in logging
+# B106: Use f-strings instead of % formatting in logging
+# B107: Use f-strings instead of % formatting in logging
+# B108: Use f-strings instead of % formatting in logging
+# B109: Use f-strings instead of % formatting in logging
+# B110: Use f-strings instead of % formatting in logging
+# B111: Use f-strings instead of % formatting in logging
+# B112: Use f-strings instead of % formatting in logging
+# B113: Use f-strings instead of % formatting in logging
+# B114: Use f-strings instead of % formatting in logging
+# B115: Use f-strings instead of % formatting in logging
+# B116: Use f-strings instead of % formatting in logging
+# B117: Use f-strings instead of % formatting in logging
+# B118: Use f-strings instead of % formatting in logging
+# B119: Use f-strings instead of % formatting in logging
+# B120: Use f-strings instead of % formatting in logging
+# B121: Use f-strings instead of % formatting in logging
+# B122: Use f-strings instead of % formatting in logging
+# B123: Use f-strings instead of % formatting in logging
+# B124: Use f-strings instead of % formatting in logging
+# B125: Use f-strings instead of % formatting in logging
+# B126: Use f-strings instead of % formatting in logging
+# B127: Use f-strings instead of % formatting in logging
+# B128: Use f-strings instead of % formatting in logging
+# B129: Use f-strings instead of % formatting in logging
+# B130: Use f-strings instead of % formatting in logging
+# B131: Use f-strings instead of % formatting in logging
+# B132: Use f-strings instead of % formatting in logging
+# B133: Use f-strings instead of % formatting in logging
+# B134: Use f-strings instead of % formatting in logging
+# B135: Use f-strings instead of % formatting in logging
+# B136: Use f-strings instead of % formatting in logging
+# B137: Use f-strings instead of % formatting in logging
+# B138: Use f-strings instead of % formatting in logging
+# B139: Use f-strings instead of % formatting in logging
+# B140: Use f-strings instead of % formatting in logging
+# B141: Use f-strings instead of % formatting in logging
+# B142: Use f-strings instead of % formatting in logging
+# B143: Use f-strings instead of % formatting in logging
+# B144: Use f-strings instead of % formatting in logging
+# B145: Use f-strings instead of % formatting in logging
+# B146: Use f-strings instead of % formatting in logging
+# B147: Use f-strings instead of % formatting in logging
+# B148: Use f-strings instead of % formatting in logging
+# B149: Use f-strings instead of % formatting in logging
+# B150: Use f-strings instead of % formatting in logging
+# B151: Use f-strings instead of % formatting in logging
+# B152: Use f-strings instead of % formatting in logging
+# B153: Use f-strings instead of % formatting in logging
+# B154: Use f-strings instead of % formatting in logging
+# B155: Use f-strings instead of % formatting in logging
+# B156: Use f-strings instead of % formatting in logging
+# B157: Use f-strings instead of % formatting in logging
+# B158: Use f-strings instead of % formatting in logging
+# B159: Use f-strings instead of % formatting in logging
+# B160: Use f-strings instead of % formatting in logging
+# B161: Use f-strings instead of % formatting in logging
+# B162: Use f-strings instead of % formatting in logging
+# B163: Use f-strings instead of % formatting in logging
+# B164: Use f-strings instead of % formatting in logging
+# B165: Use f-strings instead of % formatting in logging
+# B166: Use f-strings instead of % formatting in logging
+# B167: Use f-strings instead of % formatting in logging
+# B168: Use f-strings instead of % formatting in logging
+# B169: Use f-strings instead of % formatting in logging
+# B170: Use f-strings instead of % formatting in logging
+# B171: Use f-strings instead of % formatting in logging
+# B172: Use f-strings instead of % formatting in logging
+# B173: Use f-strings instead of % formatting in logging
+# B174: Use f-strings instead of % formatting in logging
+# B175: Use f-strings instead of % formatting in logging
+# B176: Use f-strings instead of % formatting in logging
+# B177: Use f-strings instead of % formatting in logging
+# B178: Use f-strings instead of % formatting in logging
+# B179: Use f-strings instead of % formatting in logging
+# B180: Use f-strings instead of % formatting in logging
+# B181: Use f-strings instead of % formatting in logging
+# B182: Use f-strings instead of % formatting in logging
+# B183: Use f-strings instead of % formatting in logging
+# B184: Use f-strings instead of % formatting in logging
+# B185: Use f-strings instead of % formatting in logging
+# B186: Use f-strings instead of % formatting in logging
+# B187: Use f-strings instead of % formatting in logging
+# B188: Use f-strings instead of % formatting in logging
+# B189: Use f-strings instead of % formatting in logging
+# B190: Use f-strings instead of % formatting in logging
+# B191: Use f-strings instead of % formatting in logging
+# B192: Use f-strings instead of % formatting in logging
+# B193: Use f-strings instead of % formatting in logging
+# B194: Use f-strings instead of % formatting in logging
+# B195: Use f-strings instead of % formatting in logging
+# B196: Use f-strings instead of % formatting in logging
+# B197: Use f-strings instead of % formatting in logging
+# B198: Use f-strings instead of % formatting in logging
+# B199: Use f-strings instead of % formatting in logging
+# B200: Use f-strings instead of % formatting in logging
+# B201: Use f-strings instead of % formatting in logging
+# B202: Use f-strings instead of % formatting in logging
+# B203: Use f-strings instead of % formatting in logging
+# B204: Use f-strings instead of % formatting in logging
+# B205: Use f-strings instead of % formatting in logging
+# B206: Use f-strings instead of % formatting in logging
+# B207: Use f-strings instead of % formatting in logging
+# B208: Use f-strings instead of % formatting in logging
+# B209: Use f-strings instead of % formatting in logging
+# B210: Use f-strings instead of % formatting in logging
+# B211: Use f-strings instead of % formatting in logging
+# B212: Use f-strings instead of % formatting in logging
+# B213: Use f-strings instead of % formatting in logging
+# B214: Use f-strings instead of % formatting in logging
+# B215: Use f-strings instead of % formatting in logging
+# B216: Use f-strings instead of % formatting in logging
+# B217: Use f-strings instead of % formatting in logging
+# B218: Use f-strings instead of % formatting in logging
+# B219: Use f-strings instead of % formatting in logging
+# B220: Use f-strings instead of % formatting in logging
+# B221: Use f-strings instead of % formatting in logging
+# B222: Use f-strings instead of % formatting in logging
+# B223: Use f-strings instead of % formatting in logging
+# B224: Use f-strings instead of % formatting in logging
+# B225: Use f-strings instead of % formatting in logging
+# B226: Use f-strings instead of % formatting in logging
+# B227: Use f-strings instead of % formatting in logging
+# B228: Use f-strings instead of % formatting in logging
+# B229: Use f-strings instead of % formatting in logging
+# B230: Use f-strings instead of % formatting in logging
+# B231: Use f-strings instead of % formatting in logging
+# B232: Use f-strings instead of % formatting in logging
+# B233: Use f-strings instead of % formatting in logging
+# B234: Use f-strings instead of % formatting in logging
+# B235: Use f-strings instead of % formatting in logging
+# B236: Use f-strings instead of % formatting in logging
+# B237: Use f-strings instead of % formatting in logging
+# B238: Use f-strings instead of % formatting in logging
+# B239: Use f-strings instead of % formatting in logging
+# B240: Use f-strings instead of % formatting in logging
+# B241: Use f-strings instead of % formatting in logging
+# B242: Use f-strings instead of % formatting in logging
+# B243: Use f-strings instead of % formatting in logging
+# B244: Use f-strings instead of % formatting in logging
+# B245: Use f-strings instead of % formatting in logging
+# B246: Use f-strings instead of % formatting in logging
+# B247: Use f-strings instead of % formatting in logging
+# B248: Use f-strings instead of % formatting in logging
+# B249: Use f-strings instead of % formatting in logging
+# B250: Use f-strings instead of % formatting in logging
+# B251: Use f-strings instead of % formatting in logging
+# B252: Use f-strings instead of % formatting in logging
+# B253: Use f-strings instead of % formatting in logging
+# B254: Use f-strings instead of % formatting in logging
+# B255: Use f-strings instead of % formatting in logging
+# B256: Use f-strings instead of % formatting in logging
+# B257: Use f-strings instead of % formatting in logging
+# B258: Use f-strings instead of % formatting in logging
+# B259: Use f-strings instead of % formatting in logging
+# B260: Use f-strings instead of % formatting in logging
+# B261: Use f-strings instead of % formatting in logging
+# B262: Use f-strings instead of % formatting in logging
+# B263: Use f-strings instead of % formatting in logging
+# B264: Use f-strings instead of % formatting in logging
+# B265: Use f-strings instead of % formatting in logging
+# B266: Use f-strings instead of % formatting in logging
+# B267: Use f-strings instead of % formatting in logging
+# B268: Use f-strings instead of % formatting in logging
+# B269: Use f-strings instead of % formatting in logging
+# B270: Use f-strings instead of % formatting in logging
+# B271: Use f-strings instead of % formatting in logging
+# B272: Use f-strings instead of % formatting in logging
+# B273: Use f-strings instead of % formatting in logging
+# B274: Use f-strings instead of % formatting in logging
+# B275: Use f-strings instead of % formatting in logging
+# B276: Use f-strings instead of % formatting in logging
+# B277: Use f-strings instead of % formatting in logging
+# B278: Use f-strings instead of % formatting in logging
+# B279: Use f-strings instead of % formatting in logging
+# B280: Use f-strings instead of % formatting in logging
+# B281: Use f-strings instead of % formatting in logging
+# B282: Use f-strings instead of % formatting in logging
+# B283: Use f-strings instead of % formatting in logging
+# B284: Use f-strings instead of % formatting in logging
+# B285: Use f-strings instead of % formatting in logging
+# B286: Use f-strings instead of % formatting in logging
+# B287: Use f-strings instead of % formatting in logging
+# B288: Use f-strings instead of % formatting in logging
+# B289: Use f-strings instead of % formatting in logging
+# B290: Use f-strings instead of % formatting in logging
+# B291: Use f-strings instead of % formatting in logging
+# B292: Use f-strings instead of % formatting in logging
+# B293: Use f-strings instead of % formatting in logging
+# B294: Use f-strings instead of % formatting in logging
+# B295: Use f-strings instead of % formatting in logging
+# B296: Use f-strings instead of % formatting in logging
+# B297: Use f-strings instead of % formatting in logging
+# B298: Use f-strings instead of % formatting in logging
+# B299: Use f-strings instead of % formatting in logging
+# B300: Use f-strings instead of % formatting in logging
+# B301: Use f-strings instead of % formatting in logging
+# B302: Use f-strings instead of % formatting in logging
+# B303: Use f-strings instead of % formatting in logging
+# B304: Use f-strings instead of % formatting in logging
+# B305: Use f-strings instead of % formatting in logging
+# B306: Use f-strings instead of % formatting in logging
+# B307: Use f-strings instead of % formatting in logging
+# B308: Use f-strings instead of % formatting in logging
+# B309: Use f-strings instead of % formatting in logging
+# B310: Use f-strings instead of % formatting in logging
+# B311: Use f-strings instead of % formatting in logging
+# B312: Use f-strings instead of % formatting in logging
+# B313: Use f-strings instead of % formatting in logging
+# B314: Use f-strings instead of % formatting in logging
+# B315: Use f-strings instead of % formatting in logging
+# B316: Use f-strings instead of % formatting in logging
+# B317: Use f-strings instead of % formatting in logging
+# B318: Use f-strings instead of % formatting in logging
+# B319: Use f-strings instead of % formatting in logging
+# B320: Use f-strings instead of % formatting in logging
+# B321: Use f-strings instead of % formatting in logging
+# B322: Use f-strings instead of % formatting in logging
+# B323: Use f-strings instead of % formatting in logging
+# B324: Use f-strings instead of % formatting in logging
+# B325: Use f-strings instead of % formatting in logging
+# B326: Use f-strings instead of % formatting in logging
+# B327: Use f-strings instead of % formatting in logging
+# B328: Use f-strings instead of % formatting in logging
+# B329: Use f-strings instead of % formatting in logging
+# B330: Use f-strings instead of % formatting in logging
+# B331: Use f-strings instead of % formatting in logging
+# B332: Use f-strings instead of % formatting in logging
+# B333: Use f-strings instead of % formatting in logging
+# B334: Use f-strings instead of % formatting in logging
+# B335: Use f-strings instead of % formatting in logging
+# B336: Use f-strings instead of % formatting in logging
+# B337: Use f-strings instead of % formatting in logging
+# B338: Use f-strings instead of % formatting in logging
+# B339: Use f-strings instead of % formatting in logging
+# B340: Use f-strings instead of % formatting in logging
+# B341: Use f-strings instead of % formatting in logging
+# B342: Use f-strings instead of % formatting in logging
+# B343: Use f-strings instead of % formatting in logging
+# B344: Use f-strings instead of % formatting in logging
+# B345: Use f-strings instead of % formatting in logging
+# B346: Use f-strings instead of % formatting in logging
+# B347: Use f-strings instead of % formatting in logging
+# B348: Use f-strings instead of % formatting in logging
+# B349: Use f-strings instead of % formatting in logging
+# B350: Use f-strings instead of % formatting in logging
+# B351: Use f-strings instead of % formatting in logging
+# B352: Use f-strings instead of % formatting in logging
+# B353: Use f-strings instead of % formatting in logging
+# B354: Use f-strings instead of % formatting in logging
+# B355: Use f-strings instead of % formatting in logging
+# B356: Use f-strings instead of % formatting in logging
+# B357: Use f-strings instead of % formatting in logging
+# B358: Use f-strings instead of % formatting in logging
+# B359: Use f-strings instead of % formatting in logging
+# B360: Use f-strings instead of % formatting in logging
+# B361: Use f-strings instead of % formatting in logging
+# B362: Use f-strings instead of % formatting in logging
+# B363: Use f-strings instead of % formatting in logging
+# B364: Use f-strings instead of % formatting in logging
+# B365: Use f-strings instead of % formatting in logging
+# B366: Use f-strings instead of % formatting in logging
+# B367: Use f-strings instead of % formatting in logging
+# B368: Use f-strings instead of % formatting in logging
+# B369: Use f-strings instead of % formatting in logging
+# B370: Use f-strings instead of % formatting in logging
+# B371: Use f-strings instead of % formatting in logging
+# B372: Use f-strings instead of % formatting in logging
+# B373: Use f-strings instead of % formatting in logging
+# B374: Use f-strings instead of % formatting in logging
+# B375: Use f-strings instead of % formatting in logging
+# B376: Use f-strings instead of % formatting in logging
+# B377: Use f-strings instead of % formatting in logging
+# B378: Use f-strings instead of % formatting in logging
+# B379: Use f-strings instead of % formatting in logging
+# B380: Use f-strings instead of % formatting in logging
+# B381: Use f-strings instead of % formatting in logging
+# B382: Use f-strings instead of % formatting in logging
+# B383: Use f-strings instead of % formatting in logging
+# B384: Use f-strings instead of % formatting in logging
+# B385: Use f-strings instead of % formatting in logging
+# B386: Use f-strings instead of % formatting in logging
+# B387: Use f-strings instead of % formatting in logging
+# B388: Use f-strings instead of % formatting in logging
+# B389: Use f-strings instead of % formatting in logging
+# B390: Use f-strings instead of % formatting in logging
+# B391: Use f-strings instead of % formatting in logging
+# B392: Use f-strings instead of % formatting in logging
+# B393: Use f-strings instead of % formatting in logging
+# B394: Use f-strings instead of % formatting in logging
+# B395: Use f-strings instead of % formatting in logging
+# B396: Use f-strings instead of % formatting in logging
+# B397: Use f-strings instead of % formatting in logging
+# B398: Use f-strings instead of % formatting in logging
+# B399: Use f-strings instead of % formatting in logging
+# B400: Use f-strings instead of % formatting in logging
+# B401: Use f-strings instead of % formatting in logging
+# B402: Use f-strings instead of % formatting in logging
+# B403: Use f-strings instead of % formatting in logging
+# B404: Use f-strings instead of % formatting in logging
+# B405: Use f-strings instead of % formatting in logging
+# B406: Use f-strings instead of % formatting in logging
+# B407: Use f-strings instead of % formatting in logging
+# B408: Use f-strings instead of % formatting in logging
+# B409: Use f-strings instead of % formatting in logging
+# B410: Use f-strings instead of % formatting in logging
+# B411: Use f-strings instead of % formatting in logging
+# B412: Use f-strings instead of % formatting in logging
+# B413: Use f-strings instead of % formatting in logging
+# B414: Use f-strings instead of % formatting in logging
+# B415: Use f-strings instead of % formatting in logging
+# B416: Use f-strings instead of % formatting in logging
+# B417: Use f-strings instead of % formatting in logging
+# B418: Use f-strings instead of % formatting in logging
+# B419: Use f-strings instead of % formatting in logging
+# B420: Use f-strings instead of % formatting in logging
+# B421: Use f-strings instead of % formatting in logging
+# B422: Use f-strings instead of % formatting in logging
+# B423: Use f-strings instead of % formatting in logging
+# B424: Use f-strings instead of % formatting in logging
+# B425: Use f-strings instead of % formatting in logging
+# B426: Use f-strings instead of % formatting in logging
+# B427: Use f-strings instead of % formatting in logging
+# B428: Use f-strings instead of % formatting in logging
+# B429: Use f-strings instead of % formatting in logging
+# B430: Use f-strings instead of % formatting in logging
+# B431: Use f-strings instead of % formatting in logging
+# B432: Use f-strings instead of % formatting in logging
+# B433: Use f-strings instead of % formatting in logging
+# B434: Use f-strings instead of % formatting in logging
+# B435: Use f-strings instead of % formatting in logging
+# B436: Use f-strings instead of % formatting in logging
+# B437: Use f-strings instead of % formatting in logging
+# B438: Use f-strings instead of % formatting in logging
+# B439: Use f-strings instead of % formatting in logging
+# B440: Use f-strings instead of % formatting in logging
+# B441: Use f-strings instead of % formatting in logging
+# B442: Use f-strings instead of % formatting in logging
+# B443: Use f-strings instead of % formatting in logging
+# B444: Use f-strings instead of % formatting in logging
+# B445: Use f-strings instead of % formatting in logging
+# B446: Use f-strings instead of % formatting in logging
+# B447: Use f-strings instead of % formatting in logging
+# B448: Use f-strings instead of % formatting in logging
+# B449: Use f-strings instead of % formatting in logging
+# B450: Use f-strings instead of % formatting in logging
+# B451: Use f-strings instead of % formatting in logging
+# B452: Use f-strings instead of % formatting in logging
+# B453: Use f-strings instead of % formatting in logging
+# B454: Use f-strings instead of % formatting in logging
+# B455: Use f-strings instead of % formatting in logging
+# B456: Use f-strings instead of % formatting in logging
+# B457: Use f-strings instead of % formatting in logging
+# B458: Use f-strings instead of % formatting in logging
+# B459: Use f-strings instead of % formatting in logging
+# B460: Use f-strings instead of % formatting in logging
+# B461: Use f-strings instead of % formatting in logging
+# B462: Use f-strings instead of % formatting in logging
+# B463: Use f-strings instead of % formatting in logging
+# B464: Use f-strings instead of % formatting in logging
+# B465: Use f-strings instead of % formatting in logging
+# B466: Use f-strings instead of % formatting in logging
+# B467: Use f-strings instead of % formatting in logging
+# B468: Use f-strings instead of % formatting in logging
+# B469: Use f-strings instead of % formatting in logging
+# B470: Use f-strings instead of % formatting in logging
+# B471: Use f-strings instead of % formatting in logging
+# B472: Use f-strings instead of % formatting in logging
+# B473: Use f-strings instead of % formatting in logging
+# B474: Use f-strings instead of % formatting in logging
+# B475: Use f-strings instead of % formatting in logging
+# B476: Use f-strings instead of % formatting in logging
+# B477: Use f-strings instead of % formatting in logging
+# B478: Use f-strings instead of % formatting in logging
+# B479: Use f-strings instead of % formatting in logging
+# B480: Use f-strings instead of % formatting in logging
+# B481: Use f-strings instead of % formatting in logging
+# B482: Use f-strings instead of % formatting in logging
+# B483: Use f-strings instead of % formatting in logging
+# B484: Use f-strings instead of % formatting in logging
+# B485: Use f-strings instead of % formatting in logging
+# B486: Use f-strings instead of % formatting in logging
+# B487: Use f-strings instead of % formatting in logging
+# B488: Use f-strings instead of % formatting in logging
+# B489: Use f-strings instead of % formatting in logging
+# B490: Use f-strings instead of % formatting in logging
+# B491: Use f-strings instead of % formatting in logging
+# B492: Use f-strings instead of % formatting in logging
+# B493: Use f-strings instead of % formatting in logging
+# B494: Use f-strings instead of % formatting in logging
+# B495: Use f-strings instead of % formatting in logging
+# B496: Use f-strings instead of % formatting in logging
+# B497: Use f-strings instead of % formatting in logging
+# B498: Use f-strings instead of % formatting in logging
+# B499: Use f-strings instead of % formatting in logging
+# B500: Use f-strings instead of % formatting in logging

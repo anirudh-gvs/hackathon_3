@@ -1,0 +1,22 @@
+Acme Corp Board Meeting Minutes
+Date: 2024-05-20
+Location: Conference Room B, 100 Enterprise Ave
+
+Attendees: Alice Johnson (CEO), Bob Chen (CTO), Carol Davis (CFO)
+
+Agenda Items:
+
+1. Q2 Revenue Review
+   Carol presented Q2 results showing $2.4M revenue, up 18% YoY.
+   Operating margins improved to 22%.
+
+2. Product Launch Update
+   Bob confirmed the Enterprise Suite v3.0 will launch on June 15.
+   Beta testing shows 94% customer satisfaction.
+
+3. Hiring Plan
+   Alice announced approval for 5 new engineering positions.
+   Targeting August hires.
+
+Meeting adjourned at 11:45 AM.
+Next meeting: June 10, 2024.

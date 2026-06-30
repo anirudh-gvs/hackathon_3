@@ -1,0 +1,242 @@
+# Pre-commit Hooks Configuration for Offline DocScan
+# https://pre-commit.com/
+# Run: pre-commit install (to install hooks)
+# Run: pre-commit run --all-files (to run manually)
+
+# =============================================================================
+# Repository Configuration
+# =============================================================================
+repos:
+  # ===========================================================================
+  # Pre-commit Hooks (General)
+  # ===========================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # Check for large files
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      
+      # Check for merge conflicts
+      - id: check-merge-conflict
+      
+      # Check for debug statements
+      - id: debug-statements
+      
+      # Check for private keys
+      - id: detect-private-key
+      
+      # Check for AWS credentials
+      - id: detect-aws-credentials
+        args: ['--allow-missing-credentials']
+      
+      # Check for secrets in general
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+      
+      # Fix end of files
+      - id: end-of-file-fixer
+      
+      # Fix trailing whitespace
+      - id: trailing-whitespace
+      
+      # Check YAML syntax
+      - id: check-yaml
+        args: ['--unsafe']
+      
+      # Check TOML syntax
+      - id: check-toml
+      
+      # Check JSON syntax
+      - id: check-json
+      
+      # Check for case conflicts
+      - id: check-case-conflict
+      
+      # Check for mixed line endings
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      
+      # Check for file permissions
+      - id: check-executables-have-shebangs
+      
+      # Check for symlinks
+      - id: check-symlinks
+      
+      # Check for merge conflict markers
+      - id: check-merge-conflict
+      
+      # Fix Python bytecode
+      - id: fix-byte-order-marker
+      
+      # Check for double-quoted strings in Python
+      - id: double-quote-string-fixer
+
+  # ===========================================================================
+  # Python Formatting
+  # ===========================================================================
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.14
+    hooks:
+      - id: ruff-format
+        args: ['--line-length=100']
+
+  # ===========================================================================
+  # Python Linting
+  # ===========================================================================
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.14
+    hooks:
+      - id: ruff
+        args: ['--fix', '--line-length=100']
+        types_or: [python, pyi]
+
+  # ===========================================================================
+  # Python Type Checking
+  # ===========================================================================
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [
+          'pydantic>=2.0.0',
+          'typer>=0.9.0',
+          'rich>=13.0.0',
+        ]
+        args: ['--ignore-missing-imports', '--strict-optional']
+        exclude: '^tests/'
+
+  # ===========================================================================
+  # Python Import Sorting
+  # ===========================================================================
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile', 'black', '--line-length', '100']
+
+  # ===========================================================================
+  # Pylint
+  # ===========================================================================
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        args: ['--rcfile=.pylintrc', '--fail-under=7.0']
+        exclude: '^tests/'
+
+  # ===========================================================================
+  # Flake8
+  # ===========================================================================
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: ['--config=.flake8', '--statistics', '--show-source']
+        exclude: '^tests/'
+
+  # ===========================================================================
+  # Security Scanning
+  # ===========================================================================
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+        args: ['--config=.gitleaks.toml', '--redact']
+        exclude: '^tests/fixtures/'
+
+  # ===========================================================================
+  # Commit Message Validation
+  # ===========================================================================
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.2.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
+
+  # ===========================================================================
+  # Python Modernization (Pyupgrade)
+  # ===========================================================================
+  - repo: https://github.com/asottleresearch/pyupgrade
+    rev: v3.15.0
+    hooks:
+      - id: pyupgrade
+        args: ['--py311-plus']
+        exclude: '^tests/'
+
+  # ===========================================================================
+  # Dead Code Detection (Vulture)
+  # ===========================================================================
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.11.0
+    hooks:
+      - id: vulture
+        args: ['--config=.vulture.toml', '--min-confidence=60']
+        exclude: '^tests/'
+
+  # ===========================================================================
+  # Markdown Linting
+  # ===========================================================================
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.37.0
+    hooks:
+      - id: markdownlint
+        args: ['--config', '.markdownlint.yml']
+        exclude: '^CHANGELOG.md$'
+
+  # ===========================================================================
+  # YAML Linting
+  # ===========================================================================
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: ['-d', '{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}']
+
+  # ===========================================================================
+  # Shell Script Linting
+  # ===========================================================================
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+
+  # ===========================================================================
+  # Git Commit Message Co-authors
+  # ===========================================================================
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.2.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+# =============================================================================
+# Global Configuration
+# =============================================================================
+fail_fast: false
+
+# Exclude patterns
+exclude: |
+  (?x)^(
+    \.git/|
+    \.venv/|
+    venv/|
+    __pycache__/|
+    \.mypy_cache/|
+    \.ruff_cache/|
+    \.pytest_cache/|
+    build/|
+    dist/|
+    \.eggs/|
+    \*\.egg-info/|
+    models/|
+    output/|
+    uploads/|
+    tmp/|
+    \.cache/|
+    docs/_build/|
+    node_modules/|
+    \.vscode/|
+    \.idea/
+  )$
