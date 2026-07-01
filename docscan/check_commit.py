@@ -49,7 +49,7 @@ def check_license(base: str = ".") -> bool:
         return False
     try:
         toml = pathlib.Path(base, "pyproject.toml").read_text(encoding="utf-8")
-        if 'license = "AGPL-3.0-or-later"' not in toml:
+        if 'license = { text = "AGPL-3.0-or-later" }' not in toml:
             return False
     except FileNotFoundError:
         return False
