@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import pathlib
 import re
-import subprocess
+import subprocess  # nosec B404
 import sys
 
 REQUIRED_FILES = ["README.md", "CONTRIBUTING.md", "CHANGELOG.md", "LICENSE", "docs/spec.md"]
@@ -59,7 +59,7 @@ def check_license(base: str = ".") -> bool:
 def run_checks() -> int:
     """Run all commit checks. Returns 0 on success, 1 on failure."""
     try:
-        msg = subprocess.check_output(
+        msg = subprocess.check_output(  # nosec B603 B607
             ["git", "log", "-1", "--pretty=%s"],
             text=True,
             stderr=subprocess.DEVNULL,

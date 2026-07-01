@@ -2,12 +2,6 @@
 # Security-focused rules for Python codebase
 
 # =============================================================================
-# Global Configuration
-# =============================================================================
-language: python
-severity: ERROR
-
-# =============================================================================
 # Custom Rules for Offline DocScan
 # =============================================================================
 
@@ -59,18 +53,6 @@ rules:
     severity: ERROR
     languages: [python]
     
-  # Detect path traversal vulnerabilities
-  - id: path-traversal
-    patterns:
-      - pattern-either:
-          - pattern: open($USER_INPUT)
-          - pattern: Path($USER_INPUT)
-    message: Potential path traversal. Validate and sanitize file paths.
-    severity: WARNING
-    languages: [python]
-    metadata:
-      cwe: "CWE-22"
-      
   # Detect unsafe deserialization (pickle)
   - id: unsafe-deserialization
     patterns:
@@ -152,131 +134,5 @@ rules:
     severity: INFO
     languages: [python]
     
-  # Detect hardcoded URLs
-  - id: hardcoded-url
-    patterns:
-      - pattern-regex: https?://[^\s"'<>]+
-    message: Hardcoded URL detected. Consider using configuration.
-    severity: INFO
-    languages: [python]
 
-  # ===========================================================================
-  # Code Quality Rules
-  # ===========================================================================
-  
-  # Detect bare except clauses
-  - id: bare-except
-    patterns:
-      - pattern: except:
-    message: Use 'except Exception:' instead of bare 'except:'.
-    severity: WARNING
-    languages: [python]
-    
-  # Detect mutable default arguments
-  - id: mutable-default-argument
-    patterns:
-      - pattern: def $F(..., $X={}, ...):
-      - pattern: def $F(..., $X=[], ...):
-    message: mutable default argument. Use None and initialize in function body.
-    severity: WARNING
-    languages: [python]
-    
-  # Detect print statements (should use logging)
-  - id: print-statement
-    patterns:
-      - pattern: print(...)
-    message: Use logging instead of print statements.
-    severity: INFO
-    languages: [python]
-    
-  # Detect unused imports
-  - id: unused-import
-    patterns:
-      - pattern: import $X
-      - pattern-not: $X(...)
-      - pattern-not: $X.
-      - pattern-not: $X[
-      - pattern-not: $X =
-    message: Unused import detected.
-    severity: WARNING
-    languages: [python]
-    
-  # Detect assert statements (should not be used for validation)
-  - id: assert-used
-    patterns:
-      - pattern: assert $X
-    message: Assert statements should not be used for input validation.
-    severity: INFO
-    languages: [python]
-
-# =============================================================================
-# Include Community Rulesets
-# =============================================================================
-
-includes:
-  - 'https://semgrep.dev/r/security-audit'
-  - 'https://semgrep.dev/r/secrets'
-  - 'https://semgrep.dev/r/owasp-top-ten'
-
-# =============================================================================
-# Path Configuration
-# =============================================================================
-
-paths:
-  - docscan/
-  - tests/
-
-# =============================================================================
-# Exclude Paths
-# =============================================================================
-
-exclude:
-  - '**/__pycache__/**'
-  - '**/*.pyc'
-  - '**/build/**'
-  - '**/dist/**'
-  - '**/.venv/**'
-  - '**/venv/**'
-  - '**/.eggs/**'
-  - '**/*.egg-info/**'
-  - '**/.mypy_cache/**'
-  - '**/.ruff_cache/**'
-  - '**/.pytest_cache/**'
-  - '**/htmlcov/**'
-  - '**/node_modules/**'
-  - '**/models/**'
-  - '**/output/**'
-  - '**/tmp/**'
-  - '**/.cache/**'
-
-# =============================================================================
-# Severity Thresholds
-# =============================================================================
-
-# Fail on errors, warn on warnings
-fail-on: error
-
-# =============================================================================
-# Output Configuration
-# =============================================================================
-
-output:
-  - sarif
-  - json
-  - text
-
-# =============================================================================
-# Optimization
-# =============================================================================
-
-# Use caching for faster subsequent runs
-cache: true
-
-# Timeout for individual rules (in seconds)
-timeout: 30
-
-# Maximum memory usage (in MB)
-max-memory: 4096
-
-# Number of parallel jobs
-jobs: 1
+

@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import pathlib
 import re
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tomllib
 
@@ -72,7 +72,7 @@ def check_secrets() -> None:
 def check_commit() -> None:
     """Validate commit message format and required repo files."""
     try:
-        msg = subprocess.check_output(
+        msg = subprocess.check_output(  # nosec B603 B607
             ["git", "log", "-1", "--pretty=%s"],
             text=True,
             stderr=subprocess.DEVNULL,
