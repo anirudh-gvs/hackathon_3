@@ -1,0 +1,138 @@
+# Semgrep Configuration for Offline DocScan
+# Security-focused rules for Python codebase
+
+# =============================================================================
+# Custom Rules for Offline DocScan
+# =============================================================================
+
+rules:
+  # ===========================================================================
+  # Security Rules
+  # ===========================================================================
+  
+  # Detect hardcoded credentials
+  - id: hardcoded-credentials
+    patterns:
+      - pattern-either:
+          - pattern: password = "..."
+          - pattern: password = '...'
+          - pattern: api_key = "..."
+          - pattern: api_key = '...'
+          - pattern: secret = "..."
+          - pattern: secret = '...'
+          - pattern: token = "..."
+          - pattern: token = '...'
+          - pattern: credential = "..."
+          - pattern: credential = '...'
+    message: Hardcoded credentials detected. Use environment variables instead.
+    severity: ERROR
+    languages: [python]
+    
+  # Detect SQL injection vulnerabilities
+  - id: sql-injection
+    patterns:
+      - pattern-either:
+          - pattern: cursor.execute("..." + $X)
+          - pattern: cursor.execute("...%s..." % $X)
+          - pattern: cursor.execute("...{}".format($X))
+          - pattern: cursor.execute(f"...{$X}")
+    message: Potential SQL injection vulnerability. Use parameterized queries.
+    severity: ERROR
+    languages: [python]
+    
+  # Detect command injection via subprocess
+  - id: command-injection-subprocess
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.call($CMD, shell=True)
+          - pattern: subprocess.run($CMD, shell=True)
+          - pattern: subprocess.Popen($CMD, shell=True)
+          - pattern: os.system($CMD)
+          - pattern: os.popen($CMD)
+    message: Command injection risk. Avoid shell=True with user input.
+    severity: ERROR
+    languages: [python]
+    
+  # Detect unsafe deserialization (pickle)
+  - id: unsafe-deserialization
+    patterns:
+      - pattern: pickle.loads(...)
+      - pattern: pickle.load(...)
+    message: Unsafe deserialization with pickle. Use JSON or other safe formats.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-502"
+      
+  # Detect weak cryptography
+  - id: weak-cryptography
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+    message: Weak cryptographic hash. Use SHA-256 or stronger.
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-328"
+      
+  # Detect eval() usage
+  - id: dangerous-eval
+    patterns:
+      - pattern: eval(...)
+    message: Use of eval() is dangerous. Avoid executing dynamic code.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-95"
+      
+  # Detect exec() usage
+  - id: dangerous-exec
+    patterns:
+      - pattern: exec(...)
+    message: Use of exec() is dangerous. Avoid executing dynamic code.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-95"
+      
+  # Detect yaml.load (unsafe)
+  - id: unsafe-yaml-load
+    patterns:
+      - pattern: yaml.load(...)
+    message: Use yaml.safe_load() instead of yaml.load() to prevent arbitrary code execution.
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-502"
+      
+  # Detect temporary file creation in insecure locations
+  - id: insecure-temp-file
+    patterns:
+      - pattern-either:
+          - pattern: tempfile.mktemp(...)
+          - pattern: tempfile.NamedTemporaryFile(delete=False)
+    message: Insecure temporary file creation. Use secure temp file creation.
+    severity: WARNING
+    languages: [python]
+    
+  # Detect debug mode enabled in production
+  - id: debug-mode-enabled
+    patterns:
+      - pattern-either:
+          - pattern: app.debug = True
+          - pattern: DEBUG = True
+    message: Debug mode should not be enabled in production.
+    severity: WARNING
+    languages: [python]
+    
+  # Detect hardcoded IP addresses
+  - id: hardcoded-ip
+    patterns:
+      - pattern-regex: \b(?:\d{1,3}\.){3}\d{1,3}\b
+    message: Hardcoded IP address detected. Consider using configuration.
+    severity: INFO
+    languages: [python]
+    
+
+

@@ -1,0 +1,370 @@
+[MASTER]
+
+# Specify a configuration file.
+# rcfile=
+
+# Python code to execute, usually for sys.path manipulation
+# init-hook=
+
+# Files or directories to be skipped. They should be base names, not paths.
+ignore=.git,__pycache__,build,dist,.venv,venv,.eggs,*.egg-info,node_modules,.mypy_cache,.ruff_cache,.pytest_cache,htmlcov
+
+# Add files or directories to the blacklist. They should be base names, not paths.
+# ignore-patterns=
+
+# Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
+# number of processors available to use.
+jobs=1
+
+# When enabled, pylint would attempt to guess common configuration directories
+# based on the file being analysed. This is useful if you have many projects
+# with different settings.
+# guess-typed-imports=no
+
+# Store the pylintrc file in the current working directory
+# persistent=yes
+
+# Profiled execution.
+# profile=no
+
+# List of plugins (as comma separated values of python module names) to load,
+# usually to register additional checkers.
+load-plugins=pylint.extensions.docparams,pylint.extensions.docstyle,pylint.extensions.typing
+
+
+[MESSAGES CONTROL]
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give the identifier, the pylint name (component name) or a short name
+# (component short name) separated by a comma, if you use the latter, you must
+# have disabled the equivalent message beforehand.
+enable=
+    # All basic checks
+    all,
+    
+    # Disable specific checks that are not suitable for this project
+    # C0330: bad-continuation (handled by Black)
+    # C0326: bad-whitespace (handled by Black)
+    # W0511: fixme (we use TODOs)
+    # R0913: too-many-arguments (acceptable for CLI flexibility)
+    # R0917: too-many-positional-arguments (acceptable for CLI)
+    
+    # Re-enable important checks
+    C0114,  # missing-module-docstring
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    R0903,  # too-few-public-methods (allow simple classes)
+    E1123,  # unexpected-keyword-arg
+    E1124,  # unexpected-keyword-arg-named
+    E1125,  # unexpected-keyword-arg-kwargs
+
+# Disable the message, report, category or checker with the given id(s). You can
+# either give the identifier, the pylint name (component name) or a short name
+# separated by a comma, if you use the latter, you must have disabled the
+# equivalent message beforehand.
+disable=
+    # Formatting (handled by Black)
+    C0330,
+    C0326,
+    C0301,  # line-too-long (handled by Black with 100 char limit)
+    
+    # Too many arguments (acceptable for CLI flexibility)
+    R0913,
+    R0917,
+    
+    # Fixme warnings (we use TODOs intentionally)
+    W0511,
+    
+    # Too few public methods (allow simple data classes)
+    R0903,
+    
+    # Import of unused modules (sometimes needed for side effects)
+    W0611,
+    
+    # Missing docstrings for tests (not critical)
+    C0116,
+    
+    # Protected access (acceptable in tests)
+    W0212,
+    
+    # Too many branches (complexity is sometimes necessary)
+    R0912,
+    
+    # Too many statements (acceptable for main functions)
+    R0915,
+    
+    # Too many local variables (acceptable for complex functions)
+    R0914,
+    
+    # Too many return statements (acceptable for error handling)
+    R0911,
+    
+    # Too many try-except blocks (acceptable for robust error handling)
+    R0702,
+
+
+[REPORTS]
+
+# Set the output format. Available formats are text, parseable, colorized, msvs
+# (visual studio) and html. You can also give a reporter class.
+output-format=text
+
+# Include message's id in output
+# include-ids=no
+
+# Show scores
+# scores=yes
+
+# Evaluate the mark (not used for --fail-under)
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)
+
+# Add a comment according to your evaluation mark. This is used by the
+# global evaluation report (--global-evaluation).
+# fail-under=8.0
+
+
+[FORMAT]
+
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Max number of lines for a module
+# max-module-lines=1000
+
+# String used as indentation unit. The default is four spaces.
+indent-string='    '
+
+# Number of spaces of indent required inside a hanging or continued line.
+indent-after-paren=4
+
+# Expected format of line ending, one of unix or windows.
+# expected-line-ending-format=LF
+
+# Maximum number of lines in a function/method body
+# max-function-args=5
+
+
+[BASIC]
+
+# Required attributes for module, separated by a comma
+# required-attributes=
+
+# List of builtins function names that should not be used, separated by a comma
+# bad-functions=map,filter,apply,input
+
+# Regular expression which should only match correct module names
+# module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$
+
+# Regular expression which should only match correct module level names
+# const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+
+# Regular expression which should only match correct class names
+# class-rgx=^[A-Z][a-zA-Z0-9]*$
+
+# Regular expression which should only match correct function names
+# function-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct method names
+# method-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct instance attribute names
+# attr-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct argument names
+# argument-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct variable names
+# variable-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct class attribute names
+# class-attribute-rgx=^([A-Z_][A-Z0-9_]*|__.*__)$
+
+# Regular expression which should only match correct inline iteration names
+# inlinevar-rgx=^[a-z_][a-z0-9_]*$
+
+# Regular expression which should only match correct constant names
+# const-rgx=^[A-Z_][A-Z0-9_]*$
+
+# Good variable names which should always be accepted, separated by a comma
+# good-names=i,j,k,ex,Run,_
+
+# Bad variable names which should always be rejected, separated by a comma
+# bad-names=foo,bar,baz,toto,tutu,tata
+
+# Regular expression which should only match functions or classes that do not
+# require a docstring
+# no-docstring-rgx=__.*__
+
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+min-similarity-lines=4
+
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes
+
+
+[TYPECHECK]
+
+# List of members which are set dynamically and missed by pylint inference
+# system, and so should be ignored.
+generated-members=REQUEST,acl_users,aq_parent,Objects,model,db,query,request,response,session
+
+# Tells whether to warn about missing members when a multi-import package is
+# accessed. This only works for Python >= 3.3.
+# ignored-modules=
+
+# List of packages where members are ignored if they are missing from the
+# __init__ of a package.
+ignored-modules=llama_cpp,pdfplumber,pytesseract,PIL
+
+# List of packages where members are ignored if they are missing from the
+# __init__ of a c extension.
+# ignored-classes=
+
+# List of members that are ignored when a protected member is accessed.
+# good-names=_,__
+
+# Warn when a class is created but not used (not used for abstract classes)
+# ignore-iface-for=test
+
+# Warn when a method is created but not used (not used for abstract classes)
+# ignore-iface-for=test
+
+# Warn when a function is created but not used (not used for abstract classes)
+# ignore-iface-for=test
+
+
+[VARIABLES]
+
+# Tells whether we should check for unused import in __init__ files.
+# init-import=no
+
+# A regular expression matching the beginning of the name of dummy variables
+# (i.e. not used).
+dummy-variables-rgx=_+$|dummy_
+
+# List of additional names supposed to be defined in builtins. Remember that
+# you should define all your builtins variables in your builtins module
+# (usually the builtins module in Python 2, __builtin__ in Python 3).
+# additional-builtins=
+
+
+[LOGGING]
+
+# The type of string formatting that logging methods use. This only has an
+# effect when the logging format is '%' or '{'. The default is '%'.
+# logging-format-style=new
+
+# The logging module to provide. The default is 'logging'.
+# logging-module=logging
+
+
+[MISCELLANEOUS]
+
+# List of notes (comma separated) to consider as fixme
+# notes=FIXME,XXX,TODO
+
+
+[DESIGN]
+
+# Maximum number of arguments for function / method
+max-args=10
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+# Maximum number of parents for a class (see R0901).
+max-parents=7
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=10
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=1
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=20
+
+
+[CLASSES]
+
+# List of method names used to declare (i.e. assign) instance attributes.
+# defining-attr-methods=__init__,__new__,setUp,__post_init__
+
+# List of valid names for the first argument in a class method.
+# class-attribute-naming-style=any
+
+# List of valid names for the first argument in a method.
+# method-argument-naming-style=any
+
+# List of valid names for the first argument in a metaclass method.
+# metaclass-argument-naming-style=any
+
+# List of valid names for the first argument in a class method.
+# class-argument-naming-style=any
+
+# List of valid names for the first argument in a method.
+# method-argument-naming-style=any
+
+# List of valid names for the first argument in a metaclass method.
+# metaclass-argument-naming-style=any
+
+
+[EXCEPTIONS]
+
+# Exceptions that will emit a warning when being caught. Defaults to
+# "Exception"
+# overgeneral-exceptions=Exception
+
+
+[IMPORTS]
+
+# Force import order to match isort
+# isort-required=yes
+
+# Force single line import if possible
+# force-single-line=no
+
+# Force single line import if possible
+# force-single-line-imports=no
+
+
+[DESIGN]
+
+# Maximum number of arguments for function / method
+max-args=10
+
+# Maximum number of locals for function / method body
+max-locals=15
+
+# Maximum number of return / yield for function / method body
+max-returns=6
+
+# Maximum number of branch for function / method body
+max-branches=12
+
+# Maximum number of statements in function / method body
+max-statements=50
+
+
+[PUBLIC METHODS]
+
+# List of method names that should be considered public
+# include=_*
+
+# List of method names that should be considered private
+# exclude=_

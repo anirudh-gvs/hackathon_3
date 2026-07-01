@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docscan-cli"
+version = "0.1.0"
+description = "Offline-first, CPU-only CLI tool that converts unstructured documents (PDFs, images, text) into structured JSON using local LLM inference."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "AGPL-3.0-or-later"
+
+authors = [
+    { name = "DocScan Team", email = "team@example.com" },
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: General",
+]
+
+dependencies = [
+    "llama-cpp-python>=0.2.0",
+    "pdfplumber>=0.10.0",
+    "pytesseract>=0.3.10",
+    "Pillow>=10.0.0",
+    "pydantic>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "psutil>=5.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "pylint>=3.0.0",
+    "flake8>=7.0.0",
+    "semgrep>=1.50.0",
+    "bandit>=1.7.5",
+    "pyupgrade>=3.15.0",
+    "vulture>=2.11.0",
+    "gitleaks>=8.18.0",
+    "pre-commit>=3.6.0",
+    "git-cliff>=2.0.0",
+]
+
+[tool.git-cliff]
+# Git-cliff configuration for automated changelog generation
+# See .cliff.toml for full configuration
+
+[project.scripts]
+docscan = "docscan.cli:app"
+
+[tool.setuptools.packages.find]
+include = ["docscan*"]
+
+[tool.setuptools.package-data]
+docscan = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.pyupgrade]
+keep-runtime-typing = true

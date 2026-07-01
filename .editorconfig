@@ -1,0 +1,230 @@
+# EditorConfig - https://editorconfig.org
+# This file enforces consistent coding styles across different editors and IDEs
+
+# =============================================================================
+# Global Settings (apply to all files)
+# =============================================================================
+root = true
+
+# =============================================================================
+# Python Files
+# =============================================================================
+[*.py]
+# Indentation
+indent_style = space
+indent_size = 4
+
+# Line endings
+end_of_line = lf
+insert_final_newline = true
+
+# Character encoding
+charset = utf-8
+
+# Line length (matches Black formatter config)
+max_line_length = 100
+
+# Trim trailing whitespace
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Python Configuration Files
+# =============================================================================
+[*.{cfg,ini,toml}]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# YAML Files
+# =============================================================================
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# JSON Files
+# =============================================================================
+[*.json]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Markdown Files
+# =============================================================================
+[*.md]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# Markdown specific: don't trim trailing whitespace (needed for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# =============================================================================
+# Shell Scripts
+# =============================================================================
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# PowerShell Scripts
+# =============================================================================
+[*.ps1]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Batch Files (Windows)
+# =============================================================================
+[*.bat]
+indent_style = space
+indent_size = 2
+end_of_line = crlf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Docker Files
+# =============================================================================
+[Dockerfile]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# .dockerignore
+# =============================================================================
+[.dockerignore]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# .gitignore
+# =============================================================================
+[.gitignore]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# .editorconfig (meta!)
+# =============================================================================
+[.editorconfig]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# GitLab CI Configuration
+# =============================================================================
+[.gitlab-ci.yml]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# YAML Lint Configuration
+# =============================================================================
+[.yamllint]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Plain Text Files
+# =============================================================================
+[*.txt]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# License Files
+# =============================================================================
+[LICENSE*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Makefile
+# =============================================================================
+[Makefile]
+indent_style = tab
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Fallback (for any file types not explicitly defined above)
+# =============================================================================
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# =============================================================================
+# Binary Files (do not modify)
+# =============================================================================
+[*.{png,jpg,jpeg,gif,bmp,ico,svg,pdf,zip,tar,gz,exe,dll,so,gguf,bin}]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = false
+trim_trailing_whitespace = false
+indent_style = unset
+indent_size = unset

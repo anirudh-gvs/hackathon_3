@@ -1,0 +1,17 @@
+**/__pycache__/**
+**/*.pyc
+**/build/**
+**/dist/**
+**/.venv/**
+**/venv/**
+**/.eggs/**
+**/*.egg-info/**
+**/.mypy_cache/**
+**/.ruff_cache/**
+**/.pytest_cache/**
+**/htmlcov/**
+**/node_modules/**
+**/models/**
+**/output/**
+**/tmp/**
+**/.cache/**

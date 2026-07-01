@@ -1,0 +1,20 @@
+WALMART SUPERCENTER
+1234 Main Street, Springfield, IL 62701
+Tel: (217) 555-0199
+
+Date: 2024-03-15     Time: 14:32
+Cashier: #0421
+
+Items:
+  1x Organic Milk (1 gal)         $4.98
+  2x Wheat Bread                   $5.98
+  1x Eggs (dozen)                  $3.49
+  1x Bananas (2 lbs)               $1.58
+  3x Canned Beans                  $3.00
+
+Subtotal:                        $19.03
+Tax (7.5%):                       $1.43
+Total:                           $20.46
+
+Payment: VISA **** 4321
+Thank you for shopping at Walmart!

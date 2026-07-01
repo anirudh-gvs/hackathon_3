@@ -1,0 +1,223 @@
+# Vulture Configuration for Offline DocScan
+# Finds unused code (dead code) in Python projects
+
+# =============================================================================
+# Global Settings
+# =============================================================================
+
+# Minimum confidence for code to be considered unused (0-100)
+# 60% is a good balance between finding real dead code and avoiding false positives
+min_confidence = 60
+
+# Verbose output
+verbose = false
+
+# Sort output by confidence (highest first)
+sort_by_confidence = true
+
+# =============================================================================
+# Paths to Scan
+# =============================================================================
+
+# Directories to scan
+paths = [
+    "docscan/",
+    "tests/",
+]
+
+# =============================================================================
+# Exclusions
+# =============================================================================
+
+# Exclude specific files or directories
+exclude = [
+    # Version control
+    ".git/",
+    ".github/",
+    ".gitlab/",
+    
+    # Python cache and build artifacts
+    "__pycache__/",
+    "*.pyc",
+    "*.pyo",
+    "*.pyd",
+    ".mypy_cache/",
+    ".ruff_cache/",
+    ".pytest_cache/",
+    "htmlcov/",
+    "build/",
+    "dist/",
+    "*.egg-info/",
+    ".eggs/",
+    
+    # Virtual environments
+    ".venv/",
+    "venv/",
+    "ENV/",
+    "env/",
+    ".conda/",
+    
+    # IDE files
+    ".vscode/",
+    ".idea/",
+    "*.swp",
+    "*.swo",
+    
+    # Documentation
+    "docs/_build/",
+    "site/",
+    
+    # Application data
+    "models/",
+    "output/",
+    "uploads/",
+    "tmp/",
+    "temp/",
+    ".cache/",
+    "cache/",
+    
+    # Test fixtures (large files)
+    "tests/fixtures/*.pdf",
+    "tests/fixtures/*.png",
+    "tests/fixtures/*.jpg",
+    "tests/fixtures/*.jpeg",
+    "tests/fixtures/*.bmp",
+    "tests/fixtures/*.gguf",
+]
+
+# =============================================================================
+# Whitelist (Known Dead Code That Should Be Kept)
+# =============================================================================
+
+# These are intentionally unused but should be kept
+# Format: filepath:function_or_class_name
+
+whitelist = [
+    # CLI entry point (called by setuptools)
+    "docscan/cli.py:app",
+    
+    # Version export
+    "docscan/__init__.py:__version__",
+    
+    # Public API exports
+    "docscan/__init__.py:*",
+    
+    # Test fixtures and helpers
+    "tests/conftest.py:*",
+    "tests/fixtures.py:*",
+    
+    # Dunder methods that may appear unused
+    "docscan/*:__init__",
+    "docscan/*:__repr__",
+    "docscan/*:__str__",
+    "docscan/*:__eq__",
+    "docscan/*:__hash__",
+    
+    # Module-level constants
+    "docscan/schemas.py:SCHEMA_MAP",
+    "docscan/schemas.py:SCHEMA_DESCRIPTIONS",
+    "docscan/inference.py:DEFAULT_MODEL_PATH",
+    "docscan/inference.py:_MODEL_INSTANCE",
+    
+    # Fallback functions (used in error handling)
+    "docscan/inference.py:_fallback_extract",
+    "docscan/inference.py:_parse_json",
+    
+    # Private functions (may be used internally)
+    "docscan/extractor.py:_extract_pdf",
+    "docscan/extractor.py:_extract_image",
+]
+
+# =============================================================================
+# Ignore Patterns
+# =============================================================================
+
+# Ignore specific names (glob patterns)
+ignore_names = [
+    # Test functions
+    "test_*",
+    "Test*",
+    
+    # Dunder methods
+    "__*__",
+    
+    # Private methods (single underscore prefix)
+    "_*",
+    
+    # Common patterns
+    "setup",
+    "teardown",
+    "setup_method",
+    "teardown_method",
+]
+
+# =============================================================================
+# Special Handling
+# =============================================================================
+
+# Consider these as used even if not directly referenced
+always_used = [
+    # Typer decorators
+    "app",
+    
+    # Rich console
+    "console",
+    
+    # Pydantic models
+    "BaseModel",
+    "Field",
+    
+    # Enums
+    "StrEnum",
+]
+
+# =============================================================================
+# Make certain code always considered used
+# =============================================================================
+
+# Decorators and metaclasses
+decorators = [
+    "app.command",
+    "typer.Argument",
+    "typer.Option",
+]
+
+# =============================================================================
+# Output Configuration
+# =============================================================================
+
+# Output format: text, json, or html
+output_format = "text"
+
+# Output file (empty for stdout)
+# output_file = "vulture-report.txt"
+
+# =============================================================================
+# Advanced Options
+# =============================================================================
+
+# Check that all whitelist items exist
+check_whitelist = false
+
+# Treat missing whitelist items as errors
+# Useful in CI to ensure whitelist is up to date
+whitelist_errors = false
+
+# Scan only files that have changed since last run
+# Useful for incremental scanning
+# incremental = false
+
+# Minimum number of characters for a name to be considered
+# Helps filter out very short variable names
+min_name_length = 2
+
+# =============================================================================
+# CI/CD Integration
+# =============================================================================
+
+# Exit with non-zero code if unused code is found
+# Set to false to only report but not fail
+fail_on_unused = true
+
+# Maximum number of unused items to report (0 for unlimited)
+max_unused_items = 100

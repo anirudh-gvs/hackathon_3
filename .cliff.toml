@@ -1,0 +1,430 @@
+# Git-Cliff Configuration for Offline DocScan
+# Automated changelog generation from git history
+# https://git-cliff.org/
+
+# =============================================================================
+# General Configuration
+# =============================================================================
+
+# Changelog output file
+output_file = "CHANGELOG.md"
+
+# Template file (optional, uses built-in if not specified)
+# template = "cliff-template.md"
+
+# Include unreleased changes
+include_unreleased = true
+
+# Sort commits by date (newest first)
+sort = "date"
+
+# Filter commits by these tags
+filter = "unreleased"
+
+# Git repository path
+git_repo = "."
+
+# Changelog title
+changelog_title = "Changelog"
+
+# Backtrace limit for errors
+backtrace_limit = 5
+
+# Skip commits matching these patterns
+skip_commits = [
+    "chore: release",
+    "chore: bump version",
+    "Merge branch",
+    "Merge pull request",
+    "Revert",
+]
+
+# =============================================================================
+# Commit Parsing Configuration
+# =============================================================================
+
+# Parse conventional commits
+parse_commit = true
+
+# Parse commit trailers (e.g., "Reviewed-by:", "Signed-off-by:")
+parse_trailers = true
+
+# Group commits by these categories
+group = "all"
+
+# =============================================================================
+# Commit Groups
+# =============================================================================
+
+# Define commit groups with their emojis and titles
+[[groups]]
+  title = "🚀 Features"
+  regex = "^(feat|feature)"
+  description = "New features"
+
+[[groups]]
+  title = "🐛 Bug Fixes"
+  regex = "^(fix|bugfix)"
+  description = "Bug fixes"
+
+[[groups]]
+  title = "📚 Documentation"
+  regex = "^(docs|documentation)"
+  description = "Documentation changes"
+
+[[groups]]
+  title = "🎨 Style"
+  regex = "^(style)"
+  description = "Code style changes (formatting, etc.)"
+
+[[groups]]
+  title = "♻️ Refactoring"
+  regex = "^(refactor|refactoring)"
+  description = "Code refactoring"
+
+[[groups]]
+  title = "⚡ Performance"
+  regex = "^(perf|performance)"
+  description = "Performance improvements"
+
+[[groups]]
+  title = "🧪 Tests"
+  regex = "^(test|tests)"
+  description = "Test additions or updates"
+
+[[groups]]
+  title = "🔧 Build System"
+  regex = "^(build|ci)"
+  description = "Build system and CI changes"
+
+[[groups]]
+  title = "🔒 Security"
+  regex = "^(security|sec)"
+  description = "Security fixes and improvements"
+
+[[groups]]
+  title = "🧹 Chores"
+  regex = "^(chore|maintenance)"
+  description = "Maintenance tasks"
+
+[[groups]]
+  title = "💥 Breaking Changes"
+  regex = "^(break|breaking)"
+  description = "Breaking changes"
+
+[[groups]]
+  title = "🎉 Initial Commit"
+  regex = "^initial"
+  description = "Initial commit"
+
+# =============================================================================
+# Commit Types
+# =============================================================================
+
+# Map commit types to groups
+[[types]]
+  title = "✨ Features"
+  regex = "^(feat|feature)"
+  description = "New features"
+
+[[types]]
+  title = "🐛 Bug Fixes"
+  regex = "^(fix|bugfix)"
+  description = "Bug fixes"
+
+[[types]]
+  title = "📚 Documentation"
+  regex = "^(docs|documentation)"
+  description = "Documentation changes"
+
+[[types]]
+  title = "🎨 Style"
+  regex = "^(style)"
+  description = "Code style changes"
+
+[[types]]
+  title = "♻️ Refactoring"
+  regex = "^(refactor|refactoring)"
+  description = "Code refactoring"
+
+[[types]]
+  title = "⚡ Performance"
+  regex = "^(perf|performance)"
+  description = "Performance improvements"
+
+[[types]]
+  title = "🧪 Tests"
+  regex = "^(test|tests)"
+  description = "Test additions or updates"
+
+[[types]]
+  title = "🔧 Build System"
+  regex = "^(build|ci)"
+  description = "Build system and CI changes"
+
+[[types]]
+  title = "🔒 Security"
+  regex = "^(security|sec)"
+  description = "Security fixes and improvements"
+
+[[types]]
+  title = "🧹 Chores"
+  regex = "^(chore|maintenance)"
+  description = "Maintenance tasks"
+
+[[types]]
+  title = "💥 Breaking Changes"
+  regex = "^(break|breaking)"
+  description = "Breaking changes"
+
+[[types]]
+  title = "🎉 Initial Commit"
+  regex = "^initial"
+  description = "Initial commit"
+
+# =============================================================================
+# Commit Scopes
+# =============================================================================
+
+# Map scopes to custom titles
+[[scopes]]
+  prefix = "cli"
+  title = "Command Line Interface"
+  description = "Changes to CLI commands and arguments"
+
+[[scopes]]
+  prefix = "extractor"
+  title = "Text Extraction"
+  description = "PDF, image, and text extraction"
+
+[[scopes]]
+  prefix = "inference"
+  title = "LLM Inference"
+  description = "Local LLM inference and model handling"
+
+[[scopes]]
+  prefix = "schemas"
+  title = "Data Schemas"
+  description = "Pydantic schemas and validation"
+
+[[scopes]]
+  prefix = "storage"
+  title = "Data Storage"
+  description = "File storage and data persistence"
+
+[[scopes]]
+  prefix = "security"
+  title = "Security"
+  description = "Security scanning and secret detection"
+
+[[scopes]]
+  prefix = "ci"
+  title = "CI/CD"
+  description = "Continuous integration and deployment"
+
+[[scopes]]
+  prefix = "deps"
+  title = "Dependencies"
+  description = "Dependency updates and management"
+
+[[scopes]]
+  prefix = "docs"
+  title = "Documentation"
+  description = "Documentation updates"
+
+[[scopes]]
+  prefix = "tests"
+  title = "Tests"
+  description = "Test additions and updates"
+
+[[scopes]]
+  prefix = "refactor"
+  title = "Refactoring"
+  description = "Code refactoring"
+
+[[scopes]]
+  prefix = "style"
+  title = "Style"
+  description = "Code style and formatting"
+
+[[scopes]]
+  prefix = "build"
+  title = "Build System"
+  description = "Build system changes"
+
+[[scopes]]
+  prefix = "chore"
+  title = "Chores"
+  description = "Maintenance tasks"
+
+# =============================================================================
+# Commit Body Parser
+# =============================================================================
+
+# Extract breaking changes from commit body
+[commit_parsers]
+  breaking = "💥 Breaking Changes"
+  feature = "🚀 Features"
+  bugfix = "🐛 Bug Fixes"
+  documentation = "📚 Documentation"
+  refactor = "♻️ Refactoring"
+  performance = "⚡ Performance"
+  test = "🧪 Tests"
+  build = "🔧 Build System"
+  security = "🔒 Security"
+  chore = "🧹 Chores"
+
+# =============================================================================
+# Footer Parser
+# =============================================================================
+
+# Extract information from commit footers
+[footer_parsers]
+  # Extract breaking changes
+  breaking = "BREAKING CHANGE:"
+  
+  # Extract issue references
+  issue = "Closes|Fixes|Resolves"
+  
+  # Extract reviewed by
+  reviewed = "Reviewed-by:"
+  
+  # Extract signed off by
+  signed = "Signed-off-by:"
+
+# =============================================================================
+# Template Configuration
+# =============================================================================
+
+# Use built-in template
+[templates]
+  # Use built-in template
+  template = "default"
+
+# =============================================================================
+# Post-processing
+# =============================================================================
+
+# Post-process the generated changelog
+[post_process]
+  replace = [
+    { pattern = '#(\\d+)', value = '[#$1](https://code.swecha.org/Gvs_Anirudh/cpu_first_hackathon/-/issues/$1)' },
+  ]
+
+# =============================================================================
+# Git Commands
+# =============================================================================
+
+# Git log command to generate changelog
+[git]
+  # Conventional commits parsing
+  conventional_commits = true
+  
+  # Filter by conventional commits only
+  filter_conventional = true
+  
+  # Split commits by type
+  split_commits = true
+  
+  # Commit limit (0 = unlimited)
+  limit = 1000
+  
+  # Skip merge commits
+  skip_merge = true
+  
+  # Skip revert commits
+  skip_revert = true
+  
+  # Commit date format
+  date_format = "%Y-%m-%d"
+  
+  # Commit time format
+  time_format = "%H:%M:%S"
+
+# =============================================================================
+# Version Configuration
+# =============================================================================
+
+# Version bump strategy
+[version]
+  # Version bump rules
+  bump = "auto"
+  
+  # Version file (optional)
+  # file = "docscan/__init__.py"
+  
+  # Version pattern in file
+  # pattern = "__version__ = \"{version}\""
+  
+  # Version prefix
+  prefix = "v"
+  
+  # Version separator
+  separator = "."
+
+# =============================================================================
+# Release Configuration
+# =============================================================================
+
+# Generate release notes
+[release]
+  # Generate release notes
+  generate = true
+  
+  # Release notes template
+  # template = "release-notes-template.md"
+  
+  # Release notes file
+  # file = "RELEASES.md"
+  
+  # Draft release
+  draft = false
+  
+  # Publish release
+  publish = false
+
+# =============================================================================
+# Tag Configuration
+# =============================================================================
+
+# Tag naming convention
+[tag]
+  # Tag prefix
+  prefix = "v"
+  
+  # Tag separator
+  separator = "."
+  
+  # Tag format
+  format = "v{version}"
+
+# =============================================================================
+# Remote Configuration
+# =============================================================================
+
+# Remote repository
+[remote]
+  # Remote name
+  name = "origin"
+  
+  # Remote URL
+  # url = "https://code.swecha.org/Gvs_Anirudh/cpu_first_hackathon.git"
+
+# =============================================================================
+# Advanced Options
+# =============================================================================
+
+# Enable debug mode
+debug = false
+
+# Enable verbose output
+verbose = false
+
+# Cache directory
+cache_dir = ".cliff-cache"
+
+# Parallel processing
+parallel = true
+
+# Number of parallel workers
+workers = 4
