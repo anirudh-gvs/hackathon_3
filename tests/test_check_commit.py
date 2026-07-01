@@ -58,7 +58,7 @@ def test_check_license_valid(tmp_path: pathlib.Path) -> None:
     lic = tmp_path / "LICENSE"
     lic.write_text("GNU AFFERO GENERAL PUBLIC LICENSE Version 3")
     toml = tmp_path / "pyproject.toml"
-    toml.write_text('license = "AGPL-3.0-or-later"')
+    toml.write_text('license = { text = "AGPL-3.0-or-later" }')
     assert check_license(str(tmp_path))
 
 
@@ -82,7 +82,7 @@ def test_run_checks_passes(mocker: Any) -> None:
         "docscan.check_commit.pathlib.Path.read_text",
         side_effect=[
             "GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3\n",
-            'license = "AGPL-3.0-or-later"\n',
+            'license = { text = "AGPL-3.0-or-later" }\n',
         ],
     )
     assert run_checks() == 0

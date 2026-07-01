@@ -34,7 +34,7 @@ from docscan.ci_checks import (
 
 def test_check_toml_valid(tmp_path: pathlib.Path, mocker: Any) -> None:
     toml_path = tmp_path / "pyproject.toml"
-    toml_path.write_text('[project]\nlicense = "AGPL-3.0-or-later"\nname = "test"')
+    toml_path.write_text('[project]\nlicense = { text = "AGPL-3.0-or-later" }\nname = "test"')
     mocker.patch("docscan.ci_checks.pathlib.Path.read_text", return_value=toml_path.read_text())
     mocker.patch("docscan.ci_checks.pathlib.Path", return_value=toml_path)
     check_toml()
@@ -110,7 +110,7 @@ def test_check_commit_passes(mocker: Any) -> None:
         "docscan.ci_checks.pathlib.Path.read_text",
         side_effect=[
             "GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3\n",
-            'license = "AGPL-3.0-or-later"\n',
+            'license = { text = "AGPL-3.0-or-later" }\n',
         ],
     )
     check_commit()

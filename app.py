@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import tempfile
 from pathlib import Path
 from datetime import UTC, datetime
 
@@ -35,7 +36,11 @@ app.config["UPLOAD_FOLDER"] = Path("uploads")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 app.config["UPLOAD_FOLDER"].mkdir(exist_ok=True)
 
-DB_PATH = "docscan_history.db"
+_cwd = os.path.abspath(".")
+if _cwd.startswith("\\\\"):
+    DB_PATH = os.path.join(tempfile.gettempdir(), "docscan_history.db")
+else:
+    DB_PATH = "docscan_history.db"
 init_db(DB_PATH)
 
 ALLOWED_EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".txt"}

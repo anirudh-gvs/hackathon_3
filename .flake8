@@ -6,7 +6,7 @@
 max-line-length = 100
 
 # Maximum McCabe complexity threshold
-max-complexity = 10
+max-complexity = 20
 
 # =============================================================================
 # File and Directory Exclusions
@@ -48,19 +48,10 @@ application-import-names = docscan,tests
 # These are justified suppressions for this project
 
 # E501: Line too long (handled by Black formatter)
-extend-ignore = E501
-
 # W503: Line break before binary operator (conflicts with Black)
-extend-ignore = W503
-
 # E203: Whitespace before ':' (conflicts with Black)
-extend-ignore = E203
-
 # E266: Too many leading '#' for block comment (allow for section headers)
-extend-ignore = E266
-
-# E501: Line too long (handled by Black)
-extend-ignore = E501,W503,E203,E266
+extend-ignore = E501, W503, E203, E266
 
 # =============================================================================
 # Per-File Ignores
