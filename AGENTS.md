@@ -204,9 +204,9 @@ The CI pipeline validates:
 ### Runner Configuration
 
 - **Tag**: `hackthon_3`
-- **Platform**: Windows/PowerShell
-- **Python**: 3.11
-- **Path**: `C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe`
+- **Platform**: Linux/bash
+- **Python**: 3.12
+- **Path**: resolved from system PATH
 
 ### Pipeline Status
 
@@ -309,12 +309,11 @@ pytest tests/test_cli.py::test_scan_command -v
 - Update `docs/spec.md` for technical specifications
 - Update `CHANGELOG.md` for version changes
 
-### Windows Compatibility
+### Shell Compatibility
 
-- All CI jobs run on Windows/PowerShell runners
-- Use PowerShell syntax in scripts
-- Test on Windows before submitting PRs
-- Use raw strings for Windows paths: `r"C:\path\to\file"`
+- All CI jobs run on Linux/bash runners
+- Use POSIX-compatible shell syntax in scripts
+- Test locally before submitting PRs
 
 ---
 
@@ -367,8 +366,8 @@ pytest tests/test_cli.py::test_scan_command -v
 **Issue**: Ruff linting errors
 **Solution**: Run `ruff check docscan/ tests/` to see specific errors
 
-**Issue**: Pipeline fails on Windows but works locally
-**Solution**: Check for Unix-specific commands, use PowerShell-compatible syntax
+**Issue**: Pipeline fails on CI but works locally
+**Solution**: Check for differences between local environment and CI runner (PATH, Python version, installed tools)
 
 **Issue**: Model not found during tests
 **Solution**: Ensure test fixtures include mock models or skip model-dependent tests

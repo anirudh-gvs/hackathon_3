@@ -2,7 +2,7 @@
 
 ## Current State
 
-All GitLab CI pipeline jobs are configured and ready to run on the Windows/PowerShell runner tagged `hackthon_3`.
+All GitLab CI pipeline jobs are configured and ready to run on the Linux/shell runner tagged `hackthon_3`.
 
 ---
 
@@ -39,7 +39,7 @@ The `.gitlab-ci.yml` defines the following pipeline stages:
 ## Runner Configuration
 
 - **Runner Tag**: `hackthon_3`
-- **Platform**: Windows/PowerShell
+- **Platform**: Linux/bash
 - **Python Version**: 3.11
 - **Status**: Configured and ready
 
@@ -56,8 +56,8 @@ The `.gitlab-ci.yml` defines the following pipeline stages:
 
 ## Notes
 
-- All jobs use Python 3.11 from `C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe`
-- The pipeline is configured to run on Windows runners only
+- All jobs use Python from the system PATH
+- The pipeline is configured to run on Linux/shell runners
 - Dependencies are installed via `pip install -e .` before running checks
 - Test coverage threshold is set to 50%
 
