@@ -1,7 +1,11 @@
 stages:
   - lint
+  - format
+  - type_check
+  - security
   - test
   - coverage
+  - commit-quality
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip_cache"
@@ -52,8 +56,26 @@ lint-job:
     - .venv/bin/python docscan/ci_checks.py toml
     - .venv/bin/python docscan/ci_checks.py license-headers
     - .venv/bin/ruff check --line-length 100 docscan/ tests/
+
+format-job:
+  stage: format
+  tags: [hackthon_3]
+  allow_failure: true
+  script:
     - .venv/bin/ruff format --check docscan/ tests/
+
+type-check-job:
+  stage: type_check
+  tags: [hackthon_3]
+  allow_failure: true
+  script:
     - .venv/bin/mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary
+
+security-job:
+  stage: security
+  tags: [hackthon_3]
+  allow_failure: true
+  script:
     - .venv/bin/bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py
     - .venv/bin/pip-audit --skip-editable --progress-spinner off
     - .venv/bin/python docscan/ci_checks.py secrets
@@ -89,3 +111,10 @@ coverage-job:
       - coverage.xml
     expire_in: 1 week
     when: always
+
+commit-quality-job:
+  stage: commit-quality
+  tags: [hackthon_3]
+  allow_failure: true
+  script:
+    - .venv/bin/python docscan/ci_checks.py commit
