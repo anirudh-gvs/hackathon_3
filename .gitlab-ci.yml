@@ -27,7 +27,7 @@ workflow:
 before_script:
   - |
     $PY = $null
-    foreach ($cmd in @("python", "py", "python3")) {
+    foreach ($cmd in @("C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe", "python", "py", "python3")) {
       try {
         & $cmd --version 2>$null | Out-Null
         $PY = $cmd
@@ -37,8 +37,7 @@ before_script:
     if (-not $PY) { Write-Error "Python not found"; exit 1 }
     Write-Host "Using Python: $PY"
     if (-not (Test-Path ".venv")) { & $PY -m venv .venv }
-    .\.venv\Scripts\Activate.ps1
-    python -m pip install --upgrade pip -q
+    .\.venv\Scripts\python.exe -m pip install --upgrade pip -q
 
 lint-pylint:
   stage: lint
@@ -49,9 +48,8 @@ lint-pylint:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet pylint
-    - pylint docscan/ --rcfile=.pylintrc --fail-under=7.0 --output-format=text; if (-not $?) { Write-Host "pylint warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet pylint -e .
+    - .\.venv\Scripts\pylint.exe docscan/ --rcfile=.pylintrc --fail-under=7.0 --output-format=text; if (-not $?) { Write-Host "pylint warnings (allowed)" }
 
 lint-flake8:
   stage: lint
@@ -62,9 +60,8 @@ lint-flake8:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet flake8
-    - flake8 docscan/ --config=.flake8 --statistics --show-source; if (-not $?) { Write-Host "flake8 warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet flake8
+    - .\.venv\Scripts\flake8.exe docscan/ --config=.flake8 --statistics --show-source; if (-not $?) { Write-Host "flake8 warnings (allowed)" }
 
 pyupgrade-check:
   stage: lint
@@ -75,9 +72,8 @@ pyupgrade-check:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet pyupgrade
-    - pyupgrade --py311-plus docscan/*.py; if (-not $?) { Write-Host "pyupgrade warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet pyupgrade
+    - .\.venv\Scripts\pyupgrade.exe --py311-plus docscan/*.py; if (-not $?) { Write-Host "pyupgrade warnings (allowed)" }
 
 lint-vulture:
   stage: lint
@@ -88,9 +84,8 @@ lint-vulture:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet vulture
-    - vulture docscan/ tests/ --config=.vulture.toml --min-confidence 60; if (-not $?) { Write-Host "vulture warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet vulture
+    - .\.venv\Scripts\vulture.exe docscan/ tests/ --config=.vulture.toml --min-confidence 60; if (-not $?) { Write-Host "vulture warnings (allowed)" }
 
 json-syntax-validation:
   stage: lint
@@ -101,8 +96,8 @@ json-syntax-validation:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - python docscan/ci_checks.py toml; if (-not $?) { Write-Host "toml validation warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet -e .
+    - .\.venv\Scripts\python.exe docscan/ci_checks.py toml; if (-not $?) { Write-Host "toml validation warnings (allowed)" }
 
 yaml-syntax-validation:
   stage: lint
@@ -113,9 +108,8 @@ yaml-syntax-validation:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet yamllint
-    - yamllint -d '{"extends":"default","rules":{"line-length":{"max":200},"truthy":{"check-keys":false}}}' .gitlab-ci.yml; if (-not $?) { Write-Host "yamllint warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet yamllint
+    - .\.venv\Scripts\yamllint.exe -d '{"extends":"default","rules":{"line-length":{"max":200},"truthy":{"check-keys":false}}}' .gitlab-ci.yml; if (-not $?) { Write-Host "yamllint warnings (allowed)" }
 
 license-headers:
   stage: lint
@@ -126,8 +120,7 @@ license-headers:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - python docscan/ci_checks.py license-headers; if (-not $?) { Write-Host "license-header warnings (allowed)" }
+    - .\.venv\Scripts\python.exe docscan/ci_checks.py license-headers; if (-not $?) { Write-Host "license-header warnings (allowed)" }
 
 python-lint:
   stage: lint
@@ -138,9 +131,8 @@ python-lint:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet ruff
-    - ruff check --line-length 100 docscan/ tests/; if (-not $?) { Write-Host "ruff lint warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet ruff
+    - .\.venv\Scripts\ruff.exe check --line-length 100 docscan/ tests/; if (-not $?) { Write-Host "ruff lint warnings (allowed)" }
 
 python-format:
   stage: format
@@ -151,9 +143,8 @@ python-format:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet ruff
-    - ruff format --check docscan/ tests/; if (-not $?) { Write-Host "ruff format warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet ruff
+    - .\.venv\Scripts\ruff.exe format --check docscan/ tests/; if (-not $?) { Write-Host "ruff format warnings (allowed)" }
 
 python-typecheck:
   stage: type_check
@@ -164,9 +155,8 @@ python-typecheck:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet mypy pydantic typer rich
-    - mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary; if (-not $?) { Write-Host "mypy warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet mypy pydantic typer rich -e .
+    - .\.venv\Scripts\mypy.exe docscan/ --ignore-missing-imports --strict-optional --no-error-summary; if (-not $?) { Write-Host "mypy warnings (allowed)" }
 
 security-semgrep:
   stage: security
@@ -177,9 +167,8 @@ security-semgrep:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet semgrep
-    - semgrep --config=auto --error --sarif --output=semgrep-results.sarif docscan/; if (-not $?) { Write-Host "semgrep warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet semgrep
+    - .\.venv\Scripts\semgrep.exe --config=.semgrep.yml --error docscan/; if (-not $?) { Write-Host "semgrep warnings (allowed)" }
   artifacts:
     paths:
       - semgrep-results.sarif
@@ -195,9 +184,8 @@ python-security:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet bandit
-    - bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py; if (-not $?) { Write-Host "bandit warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet bandit
+    - .\.venv\Scripts\bandit.exe -r docscan/ -ll -f txt -x docscan/ci_checks.py; if (-not $?) { Write-Host "bandit warnings (allowed)" }
 
 dependency-audit:
   stage: security
@@ -208,9 +196,8 @@ dependency-audit:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet pip-audit
-    - pip-audit --skip-editable --progress-spinner off; if (-not $?) { Write-Host "pip-audit warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet pip-audit
+    - .\.venv\Scripts\pip_audit.exe --skip-editable --progress-spinner off; if (-not $?) { Write-Host "pip-audit warnings (allowed)" }
 
 secret-scanning:
   stage: security
@@ -221,8 +208,8 @@ secret-scanning:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - python docscan/ci_checks.py secrets; if (-not $?) { Write-Host "secret-scanning warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet -e .
+    - .\.venv\Scripts\python.exe docscan/ci_checks.py secrets; if (-not $?) { Write-Host "secret-scanning warnings (allowed)" }
 
 secret-scanning-gitleaks:
   stage: security
@@ -233,8 +220,6 @@ secret-scanning-gitleaks:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet gitleaks
     - gitleaks detect --config=.gitleaks.toml --source=. --report-path=gitleaks-report.json --report-format=json --redact; if (-not $?) { Write-Host "gitleaks warnings (allowed)" }
   artifacts:
     paths:
@@ -251,9 +236,8 @@ python-unittest:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet pytest pydantic typer rich pdfplumber pytesseract Pillow
-    - pytest tests/ -v
+    - .\.venv\Scripts\pip.exe install --quiet pytest pydantic typer rich pdfplumber pytesseract Pillow -e .
+    - .\.venv\Scripts\pytest.exe tests/ -v
 
 python-coverage:
   stage: coverage
@@ -264,9 +248,8 @@ python-coverage:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - pip install --quiet pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow
-    - pytest tests/ -v --tb=short --cov=docscan --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=50
+    - .\.venv\Scripts\pip.exe install --quiet pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow -e .
+    - .\.venv\Scripts\pytest.exe tests/ -v --tb=short --cov=docscan --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=50
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:
@@ -287,5 +270,5 @@ commit-quality:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
-    - .\.venv\Scripts\Activate.ps1
-    - python docscan/ci_checks.py commit; if (-not $?) { Write-Host "commit-quality warnings (allowed)" }
+    - .\.venv\Scripts\pip.exe install --quiet -e .
+    - .\.venv\Scripts\python.exe docscan/ci_checks.py commit; if (-not $?) { Write-Host "commit-quality warnings (allowed)" }
