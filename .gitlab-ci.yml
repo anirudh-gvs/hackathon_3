@@ -1,9 +1,10 @@
 stages:
   - lint
   - format
-  - type-check
+  - type_check
   - security
   - test
+  - coverage
   - commit-quality
 
 default:
@@ -114,7 +115,7 @@ yaml-syntax-validation:
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
     - pip install --quiet yamllint
-    - yamllint -d "{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}" .gitlab-ci.yml || true
+    - 'yamllint -d "{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}" .gitlab-ci.yml || true'
 
 license-headers:
   stage: lint
@@ -161,7 +162,7 @@ python-format:
     - ruff format --check docscan/ tests/ || true
 
 python-typecheck:
-  stage: type-check
+  stage: type_check
   allow_failure: true
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends git tesseract-ocr tesseract-ocr-eng poppler-utils gcc g++ make cmake libgomp1 && rm -rf /var/lib/apt/lists/*
@@ -270,8 +271,23 @@ python-unittest:
     - if: '$CI_COMMIT_BRANCH == "main"'
     - if: '$CI_COMMIT_BRANCH == "develop"'
   script:
+    - pip install --quiet pytest pydantic typer rich pdfplumber pytesseract Pillow
+    - pytest tests/ -v
+
+python-coverage:
+  stage: coverage
+  allow_failure: true
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git tesseract-ocr tesseract-ocr-eng poppler-utils gcc g++ make cmake libgomp1 && rm -rf /var/lib/apt/lists/*
+    - pip install --quiet --upgrade pip
+    - pip install --quiet -e .
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  script:
     - pip install --quiet pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow
-    - pytest tests/ -v --tb=short --cov=docscan --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=0 || true
+    - pytest tests/ -v --tb=short --cov=docscan --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=50
   coverage: '/TOTAL.*\s+(\d+%)$/'
   artifacts:
     reports:
