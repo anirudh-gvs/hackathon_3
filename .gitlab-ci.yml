@@ -42,7 +42,6 @@ before_script:
 
 lint-pylint:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -54,7 +53,6 @@ lint-pylint:
 
 lint-flake8:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -66,7 +64,6 @@ lint-flake8:
 
 pyupgrade-check:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -78,7 +75,6 @@ pyupgrade-check:
 
 lint-vulture:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -90,7 +86,6 @@ lint-vulture:
 
 json-syntax-validation:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -102,7 +97,6 @@ json-syntax-validation:
 
 yaml-syntax-validation:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -114,7 +108,6 @@ yaml-syntax-validation:
 
 license-headers:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -125,7 +118,6 @@ license-headers:
 
 python-lint:
   stage: lint
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -137,7 +129,6 @@ python-lint:
 
 python-format:
   stage: format
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -149,7 +140,6 @@ python-format:
 
 python-typecheck:
   stage: type_check
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -161,7 +151,6 @@ python-typecheck:
 
 security-semgrep:
   stage: security
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -178,7 +167,6 @@ security-semgrep:
 
 python-security:
   stage: security
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -190,7 +178,6 @@ python-security:
 
 dependency-audit:
   stage: security
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -202,7 +189,6 @@ dependency-audit:
 
 secret-scanning:
   stage: security
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -214,7 +200,6 @@ secret-scanning:
 
 secret-scanning-gitleaks:
   stage: security
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -230,7 +215,6 @@ secret-scanning-gitleaks:
 
 python-unittest:
   stage: test
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -242,7 +226,6 @@ python-unittest:
 
 python-coverage:
   stage: coverage
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -264,7 +247,6 @@ python-coverage:
 
 commit-quality:
   stage: commit-quality
-  tags: [hackthon_3]
   allow_failure: true
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
