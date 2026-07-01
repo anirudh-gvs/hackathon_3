@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Offline-first, CPU-only CLI tool that converts unstructured documents (PDFs, images, text) into structured JSON using local LLM inference."
 readme = "README.md"
 requires-python = ">=3.11"
-license = "AGPL-3.0-or-later"
+license = { text = "AGPL-3.0-or-later" }
 
 authors = [
     { name = "DocScan Team", email = "team@example.com" },
@@ -19,6 +19,7 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",

@@ -32,9 +32,9 @@ def check_toml() -> None:
     except Exception as exc:
         print(f"FAIL: pyproject.toml invalid: {exc}")
         sys.exit(1)
-    if 'license = "AGPL-3.0-or-later"' not in text:
+    if 'license = { text = "AGPL-3.0-or-later" }' not in text:
         print(
-            'FAIL: pyproject.toml license field must be SPDX string: license = "AGPL-3.0-or-later"'
+            'FAIL: pyproject.toml license field must be SPDX table: license = { text = "AGPL-3.0-or-later" }'
         )
         sys.exit(1)
     print("OK: pyproject.toml has correct AGPL-3.0-or-later SPDX identifier")
@@ -104,8 +104,8 @@ def check_commit() -> None:
         print("FAIL: LICENSE is not AGPL-3.0")
         sys.exit(1)
     toml = pathlib.Path("pyproject.toml").read_text(encoding="utf-8")
-    if 'license = "AGPL-3.0-or-later"' not in toml:
-        print('FAIL: pyproject.toml license must be SPDX string: license = "AGPL-3.0-or-later"')
+    if 'license = { text = "AGPL-3.0-or-later" }' not in toml:
+        print('FAIL: pyproject.toml license must be SPDX table: license = { text = "AGPL-3.0-or-later" }')
         sys.exit(1)
     print("commit-quality passed")
 
