@@ -76,7 +76,7 @@ def test_check_secrets_missing_cpu_only(mocker: Any) -> None:
     )
     mocker.patch(
         "docscan.ci_checks.pathlib.Path.read_text",
-        side_effect=lambda *a, **kw: "no gpu layers here",
+        side_effect=lambda *a, **_: "no gpu layers here",
     )
     with pytest.raises(SystemExit):
         check_secrets()

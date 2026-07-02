@@ -123,6 +123,29 @@ whitelist = [
     "docscan/inference.py:_fallback_extract",
     "docscan/inference.py:_parse_json",
     
+    # Typer CLI commands (called by Typer framework, not directly)
+    "docscan/cli.py:scan",
+    "docscan/cli.py:version",
+
+    # Pydantic model fields (used by Field descriptors at runtime)
+    "docscan/schemas.py:date",
+    "docscan/schemas.py:payment_method",
+    "docscan/schemas.py:dosage",
+    "docscan/schemas.py:frequency",
+    "docscan/schemas.py:doctor",
+    "docscan/schemas.py:notes",
+    "docscan/schemas.py:summary",
+    "docscan/schemas.py:dates",
+
+    # Storage API (kept for future use)
+    "docscan/storage.py:row_factory",
+    "docscan/storage.py:delete_result",
+
+    # Test autouse fixtures (called by pytest, not directly)
+    "tests/test_monitor.py:_reset_history",
+    "tests/test_monitor.py:_clean_psutil",
+    "tests/test_monitor.py:side_effect",
+
     # Private functions (may be used internally)
     "docscan/extractor.py:_extract_pdf",
     "docscan/extractor.py:_extract_image",
