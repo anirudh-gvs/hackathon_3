@@ -1,295 +1,105 @@
 # Gitleaks Configuration for Offline DocScan
 # Detects secrets, credentials, and sensitive data in code
+# See: https://github.com/gitleaks/gitleaks#configuration
 
-# =============================================================================
-# Global Configuration
-# =============================================================================
-
-# Title of the scan
 title = "Gitleaks Secret Scan"
-
-# Paths to scan
-paths = [
-    "docscan/",
-    "tests/",
-    "scripts/",
-]
-
-# Exclude paths
-exclude = [
-    # Version control
-    ".git/",
-    ".github/",
-    ".gitlab/",
-    
-    # Python cache and build artifacts
-    "__pycache__/",
-    "*.pyc",
-    "*.pyo",
-    "*.pyd",
-    ".mypy_cache/",
-    ".ruff_cache/",
-    ".pytest_cache/",
-    "htmlcov/",
-    "build/",
-    "dist/",
-    "*.egg-info/",
-    ".eggs/",
-    
-    # Virtual environments
-    ".venv/",
-    "venv/",
-    "ENV/",
-    "env/",
-    ".conda/",
-    
-    # IDE files
-    ".vscode/",
-    ".idea/",
-    "*.swp",
-    "*.swo",
-    
-    # Documentation
-    "docs/_build/",
-    "site/",
-    
-    # Application data
-    "models/",
-    "output/",
-    "uploads/",
-    "tmp/",
-    "temp/",
-    ".cache/",
-    "cache/",
-    
-    # Dependencies
-    "node_modules/",
-    "vendor/",
-    
-    # Test fixtures (large binary files)
-    "tests/fixtures/*.pdf",
-    "tests/fixtures/*.png",
-    "tests/fixtures/*.jpg",
-    "tests/fixtures/*.jpeg",
-    "tests/fixtures/*.bmp",
-    "tests/fixtures/*.gguf",
-    
-    # Configuration files with examples
-    ".env.example",
-    "*.example",
-    
-    # Lock files
-    "package-lock.json",
-    "yarn.lock",
-    "Pipfile.lock",
-    "poetry.lock",
-]
-
-# =============================================================================
-# Secret Detection Rules
-# =============================================================================
-
-# Use default Gitleaks rules (comprehensive)
-# These detect 100+ types of secrets including:
-# - AWS keys
-# - Azure keys
-# - Google Cloud keys
-# - GitHub tokens
-# - GitLab tokens
-# - Slack tokens
-# - Stripe keys
-# - Twilio keys
-# - Database credentials
-# - Private keys
-# - And many more...
 
 # =============================================================================
 # Custom Rules for Offline DocScan
 # =============================================================================
 
-rules:
-  # Detect hardcoded API keys in Python code
-  - id: python-api-key
-    description: Hardcoded API key in Python code
-    severity: HIGH
-    patterns:
-      - pattern-regex: (?i)(api[_-]?key|apikey)\s*[:=]\s*['"][a-zA-Z0-9_\-]{20,}['"]
-      - pattern-regex: (?i)(api[_-]?key|apikey)\s*=\s*['"][a-zA-Z0-9_\-]{20,}['"]
-    path: "*.py"
-    
-  # Detect hardcoded passwords
-  - id: python-password
-    description: Hardcoded password in Python code
-    severity: HIGH
-    patterns:
-      - pattern-regex: (?i)(password|passwd|pwd)\s*[:=]\s*['"][^'"]{8,}['"]
-      - pattern-regex: (?i)(password|passwd|pwd)\s*=\s*['"][^'"]{8,}['"]
-    path: "*.py"
-    
-  # Detect hardcoded tokens
-  - id: python-token
-    description: Hardcoded token in Python code
-    severity: HIGH
-    patterns:
-      - pattern-regex: (?i)(token|access_token|auth_token)\s*[:=]\s*['"][a-zA-Z0-9_\-\.]{20,}['"]
-      - pattern-regex: (?i)(token|access_token|auth_token)\s*=\s*['"][a-zA-Z0-9_\-\.]{20,}['"]
-    path: "*.py"
-    
-  # Detect hardcoded secrets
-  - id: python-secret
-    description: Hardcoded secret in Python code
-    severity: HIGH
-    patterns:
-      - pattern-regex: (?i)(secret|client_secret)\s*[:=]\s*['"][a-zA-Z0-9_\-]{20,}['"]
-      - pattern-regex: (?i)(secret|client_secret)\s*=\s*['"][a-zA-Z0-9_\-]{20,}['"]
-    path: "*.py"
-    
-  # Detect private keys
-  - id: private-key
-    description: Private key detected
-    severity: CRITICAL
-    patterns:
-      - pattern-regex: -----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----
-      - pattern-regex: -----BEGIN\s+OPENSSH\s+PRIVATE\s+KEY-----
-      - pattern-regex: -----BEGIN\s+EC\s+PRIVATE\s+KEY-----
-    path: "*.py"
-    
-  # Detect AWS credentials
-  - id: aws-access-key
-    description: AWS Access Key ID
-    severity: HIGH
-    patterns:
-      - pattern-regex: (AKIA|ASIA)[A-Z0-9]{16}
-    path: "*.py"
-    
-  # Detect GitHub tokens
-  - id: github-token
-    description: GitHub Personal Access Token
-    severity: HIGH
-    patterns:
-      - pattern-regex: github_pat_[a-zA-Z0-9_]{22,}
-      - pattern-regex: ghp_[a-zA-Z0-9_]{36,}
-      - pattern-regex: gho_[a-zA-Z0-9_]{36,}
-    path: "*.py"
-    
-  # Detect GitLab tokens
-  - id: gitlab-token
-    description: GitLab Personal Access Token
-    severity: HIGH
-    patterns:
-      - pattern-regex: glpat-[a-zA-Z0-9\-]{20,}
-    path: "*.py"
+[[rules]]
+id = "python-api-key"
+description = "Hardcoded API key in Python code"
+severity = "high"
+regex = '''(?i)(api[_-]?key|apikey)\s*[:=]\s*['"][a-zA-Z0-9_\-]{20,}['"]'''
+path = '''\.py$'''
+
+[[rules]]
+id = "python-password"
+description = "Hardcoded password in Python code"
+severity = "high"
+regex = '''(?i)(password|passwd|pwd)\s*[:=]\s*['"][^'"]{8,}['"]'''
+path = '''\.py$'''
+
+[[rules]]
+id = "python-token"
+description = "Hardcoded token in Python code"
+severity = "high"
+regex = '''(?i)(token|access_token|auth_token)\s*[:=]\s*['"][a-zA-Z0-9_\-\.]{20,}['"]'''
+path = '''\.py$'''
+
+[[rules]]
+id = "python-secret"
+description = "Hardcoded secret in Python code"
+severity = "high"
+regex = '''(?i)(secret|client_secret)\s*[:=]\s*['"][a-zA-Z0-9_\-]{20,}['"]'''
+path = '''\.py$'''
+
+[[rules]]
+id = "private-key"
+description = "Private key detected"
+severity = "critical"
+regex = '''-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----'''
+path = '''\.py$'''
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key ID"
+severity = "high"
+regex = '''(AKIA|ASIA)[A-Z0-9]{16}'''
+path = '''\.py$'''
+
+[[rules]]
+id = "github-token"
+description = "GitHub Personal Access Token"
+severity = "high"
+regex = '''(github_pat_[a-zA-Z0-9_]{22,}|ghp_[a-zA-Z0-9_]{36,}|gho_[a-zA-Z0-9_]{36,})'''
+path = '''\.py$'''
+
+[[rules]]
+id = "gitlab-token"
+description = "GitLab Personal Access Token"
+severity = "high"
+regex = '''glpat-[a-zA-Z0-9\-]{20,}'''
+path = '''\.py$'''
 
 # =============================================================================
 # Allowlist (False Positives)
 # =============================================================================
 
-# These are known false positives or acceptable patterns
-allowlist:
-  description: "Allowlist for known false positives"
-  
-  # Allow example values in documentation
-  paths:
-    - "*.md"
-    - "*.rst"
-    - "*.txt"
-    - "docs/**"
-    - "README.md"
-    - "USER_MANUAL.md"
-    - "CHANGELOG.md"
-    - "CONTRIBUTING.md"
-    - "SECURITY.md"
-    - "CODE_OF_CONDUCT.md"
-    - "AGENTS.md"
-    - "PIPELINE_STATUS.md"
-  
-  # Allow specific patterns in test files
-  paths:
-    - "tests/**"
-  
-  # Allow environment variable references
-  regexes:
-    - "(?i)your_[a-z_]+"
-    - "(?i)example_[a-z_]+"
-    - "(?i)placeholder_[a-z_]+"
-    - "(?i)replace_[a-z_]+"
-    - "(?i)your_secret_key"
-    - "(?i)your_database_url"
-    - "(?i)your_api_key"
-    - "(?i)<your_[a-z_]+>"
-    - "(?i)\\{\\{[a-z_]+\\}\\}"
-    - "(?i)env\['[A-Z_]+'\]"
-    - "(?i)os\.getenv\('[A-Z_]+'\)"
-    - "(?i)os\.environ\.get\('[A-Z_]+'\)"
-
-# =============================================================================
-# CI/CD Configuration
-# =============================================================================
-
-# Redact secrets from output
-redact:
-  # Redact all secrets by default
-  redact: true
-  
-  # Custom redaction pattern
-  # pattern: "***REDACTED***"
-
-# =============================================================================
-# Output Configuration
-# =============================================================================
-
-# Output format: json, csv, sarif, github-actions
-output:
-  - json
-  - text
-
-# Output file (optional, defaults to stdout)
-# output_file = "gitleaks-report.json"
-
-# =============================================================================
-# Scanning Options
-# =============================================================================
-
-# Follow symbolic links
-follow_symlinks: false
-
-# Check for secrets in git history
-# WARNING: This can be slow on large repositories
-# scan_git_history: true
-
-# Maximum file size to scan (in bytes)
-# Files larger than this will be skipped
-max_file_size: 1048576  # 1MB
-
-# =============================================================================
-# Performance
-# =============================================================================
-
-# Number of parallel workers
-workers: 4
-
-# Enable caching for faster subsequent scans
-cache: true
-
-# =============================================================================
-# Reporting
-# =============================================================================
-
-# Group findings by rule
-group_by_rule: true
-
-# Show line numbers
-show_line_numbers: true
-
-# Show file paths
-show_file_paths: true
-
-# =============================================================================
-# Exit Codes
-# =============================================================================
-
-# Exit with non-zero code if secrets are found
-exit_code: 1
-
-# Exit with non-zero code if errors occur
-exit_on_error: true
+[allowlist]
+description = "Allowlist for known false positives"
+paths = [
+  '.*\.md$',
+  '.*\.rst$',
+  '.*\.txt$',
+  'docs/',
+  'tests/fixtures/',
+  '\.env\.example$',
+  '.*\.example$',
+  'package-lock\.json$',
+  'yarn\.lock$',
+  'Pipfile\.lock$',
+  'poetry\.lock$',
+  '\.venv/',
+  'venv/',
+  '__pycache__/',
+  'node_modules/',
+  'build/',
+  'dist/',
+]
+regexes = [
+  '''(?i)your_[a-z_]+''',
+  '''(?i)example_[a-z_]+''',
+  '''(?i)placeholder_[a-z_]+''',
+  '''(?i)replace_[a-z_]+''',
+  '''(?i)your_secret_key''',
+  '''(?i)your_database_url''',
+  '''(?i)your_api_key''',
+  '''(?i)<your_[a-z_]+>''',
+  '''(?i)\{\{[a-z_]+\}\}''',
+  '''(?i)env\['[A-Z_]+'\]''',
+  '''(?i)os\.getenv\('[A-Z_]+'\)''',
+  '''(?i)os\.environ\.get\('[A-Z_]+'\)''',
+]
