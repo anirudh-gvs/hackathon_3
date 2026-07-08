@@ -18,3 +18,6 @@ uploads/
 # GitLab Runner local directories
 builds/
 cache/
+venv/
+*.pyc
+
