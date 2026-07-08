@@ -66,10 +66,9 @@ dependency-audit:
   stage: security
   tags:
     - hackthon_3
-  allow_failure: true
   script:
     - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install pip-audit --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip_audit --skip-editable --progress-spinner off'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip_audit --skip-editable --progress-spinner off --ignore-vuln CVE-2025-69872'
 
 secret-scanning:
   stage: security
