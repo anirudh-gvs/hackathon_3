@@ -1,3 +1,4 @@
+# Trigger pipeline - clean run
 ---
 stages:
   - lint
@@ -5,6 +6,12 @@ stages:
   - security
   - test
   - commit-quality
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip_cache"
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+  PIP_EXTRA_INDEX_URL: "https://abetlen.github.io/llama-cpp-python/whl/cpu"
 
 json-syntax-validation:
   stage: lint

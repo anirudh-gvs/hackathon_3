@@ -168,11 +168,9 @@ def quick_extract(text: str, schema_name: SchemaName) -> dict[str, Any]:
             date="",
             total=total,
             tax=tax,
-            payment_method="card"
-            if "card" in text_lower
-            else "cash"
-            if "cash" in text_lower
-            else None,
+            payment_method=(
+                "card" if "card" in text_lower else "cash" if "cash" in text_lower else None
+            ),
             line_items=[],
         ).model_dump()
 
