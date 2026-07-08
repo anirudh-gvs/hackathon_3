@@ -37,7 +37,9 @@ COPY static/ ./static/
 COPY tests/ ./tests/
 
 RUN mkdir -p models output tmp uploads .cache && \
-    chmod -R 755 /app
+    curl -L "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf" -o models/phi3-mini-q4.gguf && \
+    chown -R 1000:1000 /app && \
+    chmod -R 775 /app
 
 EXPOSE 10000
 
