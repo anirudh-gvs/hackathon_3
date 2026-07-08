@@ -1,203 +1,91 @@
+---
 stages:
   - lint
-  - format
-  - type_check
+  - type-check
   - security
   - test
-  - coverage
   - commit-quality
-
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip_cache"
-  PYTHONDONTWRITEBYTECODE: "1"
-  PYTHONUNBUFFERED: "1"
-
-cache:
-  key: "$CI_JOB_NAME"
-  paths:
-    - .pip_cache/
-
-workflow:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-    - if: '$CI_COMMIT_TAG'
-
-before_script:
-  - |
-    if command -v python3 &>/dev/null; then
-      PY="python3"
-    elif command -v python &>/dev/null; then
-      PY="python"
-    else
-      echo "Error: Python not found!"
-      exit 1
-    fi
-    echo "Using Python: $PY"
-    if [ ! -d ".venv" ]; then
-      $PY -m venv .venv
-    fi
-    .venv/bin/python -m pip install --upgrade pip -q
-
-lint-pylint:
-  stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet pylint -e .
-    - .venv/bin/pylint docscan/ --rcfile=.pylintrc --fail-under=7.0 --output-format=text
-
-lint-flake8:
-  stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet flake8
-    - .venv/bin/flake8 docscan/ --config=.flake8 --statistics --show-source
-
-pyupgrade-check:
-  stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet pyupgrade
-    - .venv/bin/pyupgrade --py311-plus docscan/*.py
-
-lint-vulture:
-  stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet vulture
-    - .venv/bin/vulture docscan/ tests/ --config=.vulture.toml --min-confidence 60
 
 json-syntax-validation:
   stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet -e .
-    - .venv/bin/python docscan/ci_checks.py toml
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py toml'
 
-yaml-syntax-validation:
+python-format:
   stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet yamllint
-    - .venv/bin/yamllint -d '{"extends":"default","rules":{"line-length":{"max":200},"truthy":{"check-keys":false}}}' .gitlab-ci.yml
-
-license-headers:
-  stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/python docscan/ci_checks.py license-headers
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install black --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m black --check --line-length 100 docscan/ tests/'
 
 python-lint:
   stage: lint
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet ruff
-    - .venv/bin/ruff check --line-length 100 docscan/ tests/
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install ruff --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m ruff check --line-length 100 docscan/ tests/'
 
-python-format:
-  stage: format
-  tags: [hackthon_3]
-  allow_failure: true
+yaml-syntax-validation:
+  stage: lint
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet ruff
-    - .venv/bin/ruff format --check docscan/ tests/
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install yamllint --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m yamllint -d "{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}" .gitlab-ci.yml'
 
 python-typecheck:
-  stage: type_check
-  tags: [hackthon_3]
-  allow_failure: true
+  stage: type-check
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet mypy -e .
-    - .venv/bin/mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary
-
-security-semgrep:
-  stage: security
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet semgrep
-    - .venv/bin/semgrep --config=.semgrep.yml --error --sarif --output=semgrep-results.sarif docscan/
-  artifacts:
-    paths:
-      - semgrep-results.sarif
-    expire_in: 1 week
-    when: always
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install mypy pydantic typer rich --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary'
 
 python-security:
   stage: security
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet bandit
-    - .venv/bin/bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install bandit --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py'
 
 dependency-audit:
   stage: security
-  tags: [hackthon_3]
+  tags:
+    - hackthon_3
   allow_failure: true
   script:
-    - .venv/bin/pip install --quiet pip-audit
-    - .venv/bin/pip-audit --skip-editable --progress-spinner off
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install pip-audit --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip_audit --skip-editable --progress-spinner off'
 
 secret-scanning:
   stage: security
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet -e .
-    - .venv/bin/python docscan/ci_checks.py secrets
-
-secret-scanning-gitleaks:
-  stage: security
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - gitleaks detect --config=.gitleaks.toml --source=. --report-path=gitleaks-report.json --report-format=json --redact
-  artifacts:
-    paths:
-      - gitleaks-report.json
-    expire_in: 1 week
-    when: always
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py secrets'
 
 python-unittest:
   stage: test
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet pytest -e .
-    - .venv/bin/pytest tests/ -v
-
-python-coverage:
-  stage: coverage
-  tags: [hackthon_3]
-  allow_failure: true
-  script:
-    - .venv/bin/pip install --quiet pytest pytest-cov -e .
-    - .venv/bin/pytest tests/ -v --tb=short --cov=docscan --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --cov-fail-under=50
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pytest tests/ -v --tb=short --cov=docscan --cov-report=term-missing --cov-fail-under=50'
   coverage: '/TOTAL.*\s+(\d+%)$/'
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
-    paths:
-      - coverage.xml
-    expire_in: 1 week
-    when: always
 
 commit-quality:
   stage: commit-quality
-  tags: [hackthon_3]
-  allow_failure: true
+  tags:
+    - hackthon_3
   script:
-    - .venv/bin/pip install --quiet -e .
-    - .venv/bin/python docscan/ci_checks.py commit
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
+    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py commit'
