@@ -69,6 +69,7 @@ dependency-audit:
   tags:
     - hackthon_3
   script:
+    - python -m pip install --upgrade pip --quiet
     - python -m pip install pip-audit --quiet
     - python -m pip_audit --skip-editable --progress-spinner off --ignore-vuln CVE-2025-69872
 
