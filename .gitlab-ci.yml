@@ -88,7 +88,7 @@ python-unittest:
   before_script:
     - apt-get update && apt-get install -y tesseract-ocr libtesseract-dev poppler-utils --no-install-recommends
   script:
-    - python -m pip install pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow --quiet
+    - python -m pip install pytest pytest-cov pytest-mock pydantic typer rich pdfplumber pytesseract Pillow --quiet
     - python -m pip install -e . --quiet
     - python -m pytest tests/ -v --tb=short --cov=docscan --cov-report=term-missing --cov-fail-under=50
 
