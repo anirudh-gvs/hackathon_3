@@ -96,6 +96,8 @@ commit-quality:
   stage: commit-quality
   tags:
     - hackthon_3
+  before_script:
+    - apt-get update && apt-get install -y git --no-install-recommends
   script:
     - python -m pip install -e . --quiet
     - python docscan/ci_checks.py commit
