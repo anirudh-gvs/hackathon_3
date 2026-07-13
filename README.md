@@ -3,7 +3,7 @@
 [![pipeline status](https://code.swecha.org/Gvs_Anirudh/hackathon_3/badges/main/pipeline.svg)](https://code.swecha.org/Gvs_Anirudh/hackathon_3/-/commits/main)
 
 ### Live Links
-🚀 **Live Tool (App)**: [https://anirudh-gvs-docscan.hf.space](https://anirudh-gvs-docscan.hf.space)  
+🚀 **Live Tool (App)**: [https://docscan-i0k7.onrender.com](https://docscan-i0k7.onrender.com)  
 🌐 **Project Landing Page (Website)**: [https://anirudh-gvs.github.io/hackathon_3/](https://anirudh-gvs.github.io/hackathon_3/)
 
 Privacy-first, CPU-only document scanner. Extracts structured JSON from PDFs, images, and text files — fully offline using local LLM inference.
