@@ -1,5 +1,7 @@
 # Trigger pipeline - clean run
 ---
+image: python:3.11-slim
+
 stages:
   - lint
   - type-check
@@ -18,80 +20,81 @@ json-syntax-validation:
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py toml'
+    - python -m pip install -e . --quiet
+    - python docscan/ci_checks.py toml
 
 python-format:
   stage: lint
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install black --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m black --check --line-length 100 docscan/ tests/'
+    - python -m pip install black --quiet
+    - python -m black --check --line-length 100 docscan/ tests/
 
 python-lint:
   stage: lint
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install ruff --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m ruff check --line-length 100 docscan/ tests/'
+    - python -m pip install ruff --quiet
+    - python -m ruff check --line-length 100 docscan/ tests/
 
 yaml-syntax-validation:
   stage: lint
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install yamllint --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m yamllint -d "{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}" .gitlab-ci.yml'
+    - python -m pip install yamllint --quiet
+    - python -m yamllint -d "{extends: default, rules: {line-length: {max: 200}, truthy: {check-keys: false}}}" .gitlab-ci.yml
 
 python-typecheck:
   stage: type-check
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install mypy pydantic typer rich --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary'
+    - python -m pip install mypy pydantic typer rich --quiet
+    - python -m pip install -e . --quiet
+    - python -m mypy docscan/ --ignore-missing-imports --strict-optional --no-error-summary
 
 python-security:
   stage: security
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install bandit --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py'
+    - python -m pip install bandit --quiet
+    - python -m bandit -r docscan/ -ll -f txt -x docscan/ci_checks.py
 
 dependency-audit:
   stage: security
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install pip-audit --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip_audit --skip-editable --progress-spinner off --ignore-vuln CVE-2025-69872'
+    - python -m pip install pip-audit --quiet
+    - python -m pip_audit --skip-editable --progress-spinner off --ignore-vuln CVE-2025-69872
 
 secret-scanning:
   stage: security
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py secrets'
+    - python -m pip install -e . --quiet
+    - python docscan/ci_checks.py secrets
 
 python-unittest:
   stage: test
   tags:
     - hackthon_3
+  before_script:
+    - apt-get update && apt-get install -y tesseract-ocr libtesseract-dev poppler-utils --no-install-recommends
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pytest tests/ -v --tb=short --cov=docscan --cov-report=term-missing --cov-fail-under=50'
-  coverage: '/TOTAL.*\s+(\d+%)$/'
+    - python -m pip install pytest pytest-cov pydantic typer rich pdfplumber pytesseract Pillow --quiet
+    - python -m pip install -e . --quiet
+    - python -m pytest tests/ -v --tb=short --cov=docscan --cov-report=term-missing --cov-fail-under=50
 
 commit-quality:
   stage: commit-quality
   tags:
     - hackthon_3
   script:
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -e . --quiet'
-    - '& "C:\Users\aniru\AppData\Local\Programs\Python\Python311\python.exe" docscan/ci_checks.py commit'
+    - python -m pip install -e . --quiet
+    - python docscan/ci_checks.py commit
